@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'config/env.dart';
-import './route.dart' as MyRoute;
+import './woorinaru_app.dart';
 
 void main() {
   BuildEnvironment.initDev();
@@ -12,13 +12,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Woorinaru Beta',
-      theme: ThemeData(
-        primaryColor: Colors.black,
-        // primarySwatch: Colors.blue,
-      ),
-      home: MyRoute.Route(),
-    );
+    return WoorinaruApp();
   }
 }

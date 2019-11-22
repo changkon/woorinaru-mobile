@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woorinaru/components/app_localizations.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -10,7 +11,9 @@ class Login extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
-            Text('Hello World'),
+            Text(
+              AppLocalizations.of(context).trans('hello')
+            ),
           ],
         ),
       ),
