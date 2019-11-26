@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:woorinaru/components/app_localizations.dart';
+import 'package:woorinaru/components/localization/app_localizations.dart';
 import './route.dart' as MyRoute;
 
 class WoorinaruApp extends StatelessWidget {
