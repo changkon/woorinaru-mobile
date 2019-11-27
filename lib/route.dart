@@ -22,6 +22,14 @@ class _RouteState extends State<Route> {
     });
   }
 
+  void retrieveUserDetails() {
+    // TODO
+  }
+
+  void retrieveAPIToken() async {
+    // TODO
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

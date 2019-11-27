@@ -9,8 +9,9 @@ class WoorinaruApp extends StatelessWidget {
     return MaterialApp(
       title: 'Woorinaru Beta',
       theme: ThemeData(
-        primaryColor: Colors.white,
-        // primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
+        accentColor: Colors.redAccent,
+        fontFamily: 'Gaegu',
       ),
       home: MyRoute.Route(),
       localizationsDelegates: [
