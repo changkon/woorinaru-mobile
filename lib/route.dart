@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
 
 // Import screens
 import './screens/splash/splash_screen.dart';
 import './screens/login/login.dart';
 import './screens/home/home.dart';
 import './service/token_service.dart';
+
+import './models/user/user.dart';
+import './models/user/user_model.dart';
+import './models/token/access_token_payload.dart';
 
 class Route extends StatefulWidget {
   @override
@@ -42,14 +47,18 @@ class _RouteState extends State<Route> {
 
   void _initTokenCredentialsAndUser() async {
     TokenService tokenService = Provider.of<TokenService>(context);
-    await tokenService.getAccessToken();
-    String idToken = await tokenService.getLocalIdToken();
-    if (idToken == null) {
+    String accessToken = await tokenService.getAccessToken();
+    AccessTokenPayload tokenPayload = AccessTokenPayload.fromAccessToken(accessToken);
+
+    if (tokenPayload.role == 'visitor') {
       // GUEST user
-      // print("Guest");
+      print("Guest");
+      Provider.of<UserModel>(context, listen: false).setLoggedInUser(null);
     } else {
       // Logged in user
-      // print(idToken);
+      String idToken = await tokenService.getLocalIdToken();
+      User loggedInUser = User.fromIdToken(idToken);
+      Provider.of<UserModel>(context, listen: false).setLoggedInUser(loggedInUser);
     }
   }
 

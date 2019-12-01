@@ -2,5 +2,7 @@
   "hello": "Hello World zh",
   "woorinaru": "woorinaru",
   "signin_google": "Sign in with Google",
-  "signin_guest": "Continue as a guest"
+  "signin_guest": "Continue as a guest",
+  "guest": "Guest",
+  "login": "Login"
 }
