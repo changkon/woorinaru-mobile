@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
+import 'package:dio/dio.dart';
 import '../models/auth/woorinaru_access_token.dart';
 
 class AuthenticationService {
@@ -14,10 +13,11 @@ class AuthenticationService {
   }
 
   Future<String> getVisitorAccessToken() async {
-    http.Response response = await http.post(_endpoint);
+    Response response = await new Dio().post(_endpoint);
     if (response.statusCode == 200) {
-      Map tokenMap = jsonDecode(response.body);
-      WoorinaruAccessToken accessToken = WoorinaruAccessToken.fromJson(tokenMap);
+      Map tokenMap = response.data;
+      WoorinaruAccessToken accessToken =
+          WoorinaruAccessToken.fromJson(tokenMap);
       return accessToken.token;
     }
     return null;
@@ -25,10 +25,16 @@ class AuthenticationService {
 
   Future<String> getUserAccessToken(String idToken) async {
     Map<String, String> headers = {'Authorization': 'Bearer ' + idToken};
-    http.Response response = await http.post(_endpoint, headers: headers);
+    Response response = await new Dio().post(
+      _endpoint,
+      options: Options(
+        headers: headers,
+      ),
+    );
     if (response.statusCode == 200) {
-      Map tokenMap = jsonDecode(response.body);
-      WoorinaruAccessToken accessToken = WoorinaruAccessToken.fromJson(tokenMap);
+      Map tokenMap = response.data;
+      WoorinaruAccessToken accessToken =
+          WoorinaruAccessToken.fromJson(tokenMap);
       return accessToken.token;
     }
     return null;

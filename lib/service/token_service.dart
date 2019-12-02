@@ -1,5 +1,6 @@
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './localstorage_service.dart';
 import './authentication_service.dart';
@@ -23,6 +24,8 @@ class TokenService {
   /// 2. Check the local storage for existing id token
   /// 3. Create access token based on id token or create a visitor access token
   Future<String> getAccessToken() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.clear();
     String localAccessToken = await localStorageService.getAccessToken();
 
     if (localAccessToken != null) {
