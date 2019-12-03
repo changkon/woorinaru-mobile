@@ -18,9 +18,28 @@ class BuildEnvironment {
   }
 
   static void _initLogger(Level level) {
-    AnsiPen pen = new AnsiPen()..magenta(bold: true);
+    AnsiPen errorPen = new AnsiPen()..red(bold: true);
+    AnsiPen warningPen = new AnsiPen()..yellow(bold: true);
+    AnsiPen infoPen = new AnsiPen()..green(bold: true);
+
     Logger.root.level = level;
     Logger.root.onRecord.listen((record) {
+      AnsiPen pen;
+
+      switch (record.level.name) {
+        case "INFO":
+          pen = infoPen;
+          break;
+        case "WARN":
+          pen = warningPen;
+          break;
+        case "ERROR":
+          pen = errorPen;
+          break;
+        default:
+          pen = infoPen;
+      }
+
       print(pen('${record.level.name}: ${record.time}: ${record.message}'));
     });
   }
