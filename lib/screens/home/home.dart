@@ -5,6 +5,7 @@ import '../../components/appbar/woorinaru_app_bar.dart';
 import '../../components/drawer/woorinaru_drawer.dart';
 import '../../service/term_service.dart';
 import '../../models/event/event.dart';
+import '../../models/term/term.dart';
 
 class Home extends StatefulWidget {
 
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
     // initialise
     TermService termService = Provider.of<TermService>(context, listen: false);
     int latestTermId = await termService.getLatestTermId();
-    print('Latest term $latestTermId');
+    Term term = await termService.getTerm(latestTermId);
   }
 
   @override

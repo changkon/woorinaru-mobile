@@ -28,12 +28,12 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     int id = json['id'] as int;
-    DateTime startDateTime = json['startDateTime'] as DateTime;
-    DateTime endDateTime = json['endDateTime'] as DateTime;
+    DateTime startDateTime = DateTime.parse(json['startDateTime'] as String);
+    DateTime endDateTime = DateTime.parse(json['endDateTime'] as String);
     String address = json['address'] as String;
     String description = json['description'] as String;
-    List<int> studentReservationIds = json['studentReservations'] as List;
-    List<int> wooriClassIds = json['wooriClasses'] as List;
+    List<int> studentReservationIds = json['studentReservations'].cast<int>();
+    List<int> wooriClassIds = json['wooriClasses'].cast<int>();
 
     return Event(
       id: id,
