@@ -9,7 +9,8 @@ import './screens/home/home.dart';
 import './service/token_service.dart';
 
 import './models/user/user.dart';
-import './models/user/user_model.dart';
+import './models/user/client.dart';
+import './models/user/client_model.dart';
 import './models/token/access_token_payload.dart';
 
 class Route extends StatefulWidget {
@@ -59,12 +60,13 @@ class _RouteState extends State<Route> {
 
     if (tokenPayload.role == 'visitor') {
       // GUEST user
-      Provider.of<UserModel>(context, listen: false).setLoggedInUser(null);
+      Provider.of<ClientModel>(context, listen: false).setLoggedInClient(null);
     } else {
       // Logged in user
       String idToken = await tokenService.getLocalIdToken();
-      User loggedInUser = User.fromIdToken(idToken);
-      Provider.of<UserModel>(context, listen: false).setLoggedInUser(loggedInUser);
+      Client loggedInClient = Client.fromIdToken(idToken);
+      // TODO populate more from user using access token
+      Provider.of<ClientModel>(context, listen: false).setLoggedInClient(loggedInClient);
     }
   }
 

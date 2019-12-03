@@ -11,7 +11,7 @@ import './service/localstorage_service.dart';
 import './service/token_service.dart';
 import './service/term_service.dart';
 
-import './models/user/user_model.dart';
+import './models/user/client_model.dart';
 
 class WoorinaruApp extends StatelessWidget {
   @override
@@ -32,7 +32,7 @@ class WoorinaruApp extends StatelessWidget {
           // update: (context, tokenService, termService) => TermService(baseUrl: env.baseUrl, tokenService: tokenService)
         ),
         ChangeNotifierProvider(
-          create: (_) => UserModel(),
+          create: (_) => ClientModel(),
         ),
       ],
       child: MaterialApp(

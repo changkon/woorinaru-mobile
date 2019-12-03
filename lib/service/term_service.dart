@@ -20,4 +20,18 @@ class TermService extends WoorinaruService {
     Response response = await this.httpClient.get(url);
     print(response.data);
   }
+
+  Future<int> getLatestTermId() async {
+    String url = '$baseUrl/term';
+    Response response = await this.httpClient.get(url);
+    List<dynamic> terms = response.data;
+
+    if (terms.isEmpty) {
+      return null;
+    }
+
+    int latestTerm = terms.fold(terms.first['id'] as int,
+      (latest, current) => latest > (current['id'] as int) ? latest : (current['id'] as int));
+    return latestTerm;
+  }
 }

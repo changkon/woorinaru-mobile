@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/user/user_model.dart';
+import '../../models/user/client_model.dart';
 import '../../models/user/user.dart';
 import '../../components/localization/app_localizations.dart';
 
@@ -51,17 +51,17 @@ class _WoorinaruDrawerState extends State<WoorinaruDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserModel>(
-      builder: (_, userModel, __) => Drawer(
+    return Consumer<ClientModel>(
+      builder: (_, clientModel, __) => Drawer(
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: userModel.loggedInUser == null ? Text('Guest') : Text(userModel.loggedInUser.name),
-              accountEmail: userModel.loggedInUser == null ? Text('') : Text(userModel.loggedInUser.email),
+              accountName: clientModel.loggedInClient == null ? Text('Guest') : Text(clientModel.loggedInClient.name),
+              accountEmail: clientModel.loggedInClient == null ? Text('') : Text(clientModel.loggedInClient.email),
               currentAccountPicture: CircleAvatar(
-                  child: userModel.loggedInUser == null ? Text('G', style: TextStyle(fontSize: 40.0)) : Text(userModel.loggedInUser.name.substring(0, 1).toUpperCase())),
+                  child: clientModel.loggedInClient == null ? Text('G', style: TextStyle(fontSize: 40.0)) : Text(clientModel.loggedInClient.name.substring(0, 1).toUpperCase())),
             ),
-            ... _getWidgets(userModel.loggedInUser),
+            ... _getWidgets(clientModel.loggedInClient),
           ],
         ),
       ),

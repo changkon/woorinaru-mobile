@@ -4,14 +4,39 @@ import '../../components/localization/app_localizations.dart';
 import '../../components/appbar/woorinaru_app_bar.dart';
 import '../../components/drawer/woorinaru_drawer.dart';
 import '../../service/term_service.dart';
+import '../../models/event/event.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+  List<Event> _upcomingEvents;
+  List<Event> _pastEvents;
+
+  @override
+  void initState() {
+    super.initState();
+    _initEvents();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  void _initEvents() async {
+    // initialise
+    TermService termService = Provider.of<TermService>(context, listen: false);
+    int latestTermId = await termService.getLatestTermId();
+    print('Latest term $latestTermId');
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TermService termService = Provider.of<TermService>(context);
-    // termService.getAllTerms();
-
     return Scaffold(
       appBar: WoorinaruAppBar(),
       drawer: WoorinaruDrawer(),
