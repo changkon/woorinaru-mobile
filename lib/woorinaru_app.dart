@@ -9,6 +9,7 @@ import './config/env.dart';
 import './service/authentication_service.dart';
 import './service/localstorage_service.dart';
 import './service/token_service.dart';
+import './service/term_service.dart';
 
 import './models/user/user_model.dart';
 
@@ -24,6 +25,11 @@ class WoorinaruApp extends StatelessWidget {
             localStorageService: LocalStorageService(),
             identityProviderService: IdentityProviderService(),
           ),
+        ),
+        ProxyProvider<TokenService, TermService>(
+          builder: (_, tokenService, __) => TermService(baseUrl: env.baseUrl, tokenService: tokenService)
+          // create: (context) => TermService(baseUrl: env.baseUrl, tokenService: Provider.of<TokenService>(context)),
+          // update: (context, tokenService, termService) => TermService(baseUrl: env.baseUrl, tokenService: tokenService)
         ),
         ChangeNotifierProvider(
           create: (_) => UserModel(),

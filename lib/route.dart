@@ -47,12 +47,18 @@ class _RouteState extends State<Route> {
 
   void _initTokenCredentialsAndUser() async {
     TokenService tokenService = Provider.of<TokenService>(context);
-    String accessToken = await tokenService.getAccessToken();
+    String accessToken = await tokenService.getLocalAccessToken();
+
+    if (accessToken == null) {
+      String idToken = await tokenService.getLocalIdToken();
+      String refreshToken = await tokenService.getLocalIdRefreshToken();
+      accessToken = await tokenService.generateAccessToken(idToken: idToken, refreshToken: refreshToken);
+    }
+
     AccessTokenPayload tokenPayload = AccessTokenPayload.fromAccessToken(accessToken);
 
     if (tokenPayload.role == 'visitor') {
       // GUEST user
-      print("Guest");
       Provider.of<UserModel>(context, listen: false).setLoggedInUser(null);
     } else {
       // Logged in user
