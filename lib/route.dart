@@ -12,6 +12,7 @@ import './models/user/user.dart';
 import './models/user/client.dart';
 import './models/user/client_model.dart';
 import './models/token/access_token_payload.dart';
+import 'config/env.dart';
 
 class Route extends StatefulWidget {
   @override
@@ -22,11 +23,11 @@ class _RouteState extends State<Route> {
 
   // TODO
   bool _userFirstLoad = false;
-  bool _init = false;
 
   @override
   void initState() {
     super.initState();
+    _initTokenCredentialsAndUser();
     // Splash screen navigation
     _splashScreenNavigation();
   }
@@ -34,10 +35,6 @@ class _RouteState extends State<Route> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_init) {
-      _init = true;
-      _initTokenCredentialsAndUser();
-    }
   }
 
   void _splashScreenNavigation() {
@@ -47,7 +44,30 @@ class _RouteState extends State<Route> {
   }
 
   void _initTokenCredentialsAndUser() async {
-    TokenService tokenService = Provider.of<TokenService>(context);
+    TokenService tokenService = Provider.of<TokenService>(context, listen: false);
+    if (env.flavor == BuildFlavor.development) {
+      // Setup token
+      // Setup local user (No local access token/id token/refresh token)
+      await tokenService.localStorageService.removeAccessToken();
+      await tokenService.localStorageService.removeIdToken();
+      await tokenService.localStorageService.removeIdRefreshToken();
+
+      // Guest user
+      // Do nothing
+      // Student user
+      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0dWRlbnRAdGVzdC5jb20iLCJuYW1lIjoiQWxpY2UgTGVlIiwibmlja25hbWUiOiJBbGljZSIsInBpY3R1cmUiOiJwaWN0dXJlIn0.aBiwIPASKs_pZeV0VFqOYWJ2yXik9tLzVSrH9yk2T3M
+      //await tokenService.localStorageService.saveIdToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0dWRlbnRAdGVzdC5jb20iLCJuYW1lIjoiQWxpY2UgTGVlIiwibmlja25hbWUiOiJBbGljZSIsInBpY3R1cmUiOiJwaWN0dXJlIn0.aBiwIPASKs_pZeV0VFqOYWJ2yXik9tLzVSrH9yk2T3M');
+      //await tokenService.localStorageService.saveIdRefreshToken('token');
+      // Teacher user
+      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlYWNoZXJAdGVzdC5jb20iLCJuYW1lIjoiSGVucnkgV2Fsa2VyIiwibmlja25hbWUiOiJIZW5yeSIsInBpY3R1cmUiOiJwaWN0dXJlIn0.OGzUuaO2AmL8Kt_zbCPZOi9Lpu-I3heF1aYE468M0vw
+      //await tokenService.localStorageService.saveIdToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlYWNoZXJAdGVzdC5jb20iLCJuYW1lIjoiSGVucnkgV2Fsa2VyIiwibmlja25hbWUiOiJIZW5yeSIsInBpY3R1cmUiOiJwaWN0dXJlIn0.OGzUuaO2AmL8Kt_zbCPZOi9Lpu-I3heF1aYE468M0vw');
+      //await tokenService.localStorageService.saveIdRefreshToken('token');
+      // Admin user
+      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwibmFtZSI6IkFsYW4gV2Fsa2VyIiwibmlja25hbWUiOiJBbGFuIiwicGljdHVyZSI6InBpY3R1cmUifQ.-KRyYkb62eCSCF9125YFGVj96V_BZgnd6TuwXwsyFj0
+      await tokenService.localStorageService.saveIdToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwibmFtZSI6IkFsYW4gV2Fsa2VyIiwibmlja25hbWUiOiJBbGFuIiwicGljdHVyZSI6InBpY3R1cmUifQ.-KRyYkb62eCSCF9125YFGVj96V_BZgnd6TuwXwsyFj0');
+      await tokenService.localStorageService.saveIdRefreshToken('token');
+    }
+    
     String accessToken = await tokenService.getLocalAccessToken();
 
     if (accessToken == null) {
@@ -66,6 +86,13 @@ class _RouteState extends State<Route> {
       String idToken = await tokenService.getLocalIdToken();
       Client loggedInClient = Client.fromIdToken(idToken);
       // TODO populate more from user using access token
+      if (tokenPayload.role == 'admin') {
+        loggedInClient.userType = UserType.ADMIN;
+      } else if (tokenPayload.role == 'staff') {
+        loggedInClient.userType = UserType.STAFF;
+      } else if (tokenPayload.role == 'student') {
+        loggedInClient.userType = UserType.STUDENT;
+      }
       Provider.of<ClientModel>(context, listen: false).setLoggedInClient(loggedInClient);
     }
   }

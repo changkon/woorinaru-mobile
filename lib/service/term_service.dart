@@ -42,7 +42,7 @@ class TermService extends WoorinaruService {
     List<dynamic> terms = response.data;
 
     if (terms.isEmpty) {
-      return null;
+      return -1;
     }
 
     // int latestTerm = terms.fold(terms.first['id'] as int,

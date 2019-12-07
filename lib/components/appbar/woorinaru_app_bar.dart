@@ -10,8 +10,8 @@ class WoorinaruAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         AppLocalizations.of(context).trans('woorinaru'),
         style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+          fontSize: 17,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );

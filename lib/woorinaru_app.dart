@@ -10,6 +10,7 @@ import './service/authentication_service.dart';
 import './service/localstorage_service.dart';
 import './service/token_service.dart';
 import './service/term_service.dart';
+import './service/event_service.dart';
 
 import './models/user/client_model.dart';
 
@@ -31,6 +32,9 @@ class WoorinaruApp extends StatelessWidget {
           // create: (context) => TermService(baseUrl: env.baseUrl, tokenService: Provider.of<TokenService>(context)),
           // update: (context, tokenService, termService) => TermService(baseUrl: env.baseUrl, tokenService: tokenService)
         ),
+        ProxyProvider<TokenService, EventService>(
+          builder: (_, tokenService, __) => EventService(baseUrl: env.baseUrl, tokenService: tokenService)
+        ),
         ChangeNotifierProvider(
           create: (_) => ClientModel(),
         ),
@@ -40,7 +44,7 @@ class WoorinaruApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
           accentColor: Colors.redAccent,
-          fontFamily: 'Gaegu',
+          fontFamily: 'NotoSansKr',
         ),
         home: MyRoute.Route(),
         localizationsDelegates: [

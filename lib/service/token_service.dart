@@ -54,6 +54,7 @@ class TokenService {
   }
 
   Future<String> refreshAccessToken({ String idToken, String refreshToken }) async {
+    log.fine('Refreshing access token');
     await this.localStorageService.removeAccessToken();
     await this.localStorageService.removeIdToken();
     await this.localStorageService.removeIdRefreshToken();

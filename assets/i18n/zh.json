@@ -4,5 +4,10 @@
   "signin_google": "Sign in with Google",
   "signin_guest": "Continue as a guest",
   "guest": "Guest",
-  "login": "Login"
+  "login": "Login",
+  "logout": "Logout",
+  "upcoming_events_title": "Upcoming Events",
+  "upcoming_events_empty": "There are no upcoming events",
+  "past_events_title": "Past Events",
+  "past_events_empty": "There were no past events"
 }

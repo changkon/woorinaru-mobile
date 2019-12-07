@@ -4,5 +4,10 @@
   "signin_google": "구글로 로그인",
   "signin_guest": "게스트로 진행",
   "guest": "손님",
-  "login": "로그인"
+  "login": "로그인",
+  "logout": "로그아웃",
+  "upcoming_events_title": "미래 이벤트",
+  "upcoming_events_empty": "현재 진행중 이벤트 없음",
+  "past_events_title": "과거 이벤트",
+  "past_events_empty": "과거 이벤트 없었습니다"
 }

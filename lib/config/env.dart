@@ -21,6 +21,7 @@ class BuildEnvironment {
     AnsiPen errorPen = new AnsiPen()..red(bold: true);
     AnsiPen warningPen = new AnsiPen()..yellow(bold: true);
     AnsiPen infoPen = new AnsiPen()..green(bold: true);
+    AnsiPen finePen = new AnsiPen()..blue(bold: true);
 
     Logger.root.level = level;
     Logger.root.onRecord.listen((record) {
@@ -30,11 +31,14 @@ class BuildEnvironment {
         case "INFO":
           pen = infoPen;
           break;
-        case "WARN":
+        case "WARNING":
           pen = warningPen;
           break;
         case "ERROR":
           pen = errorPen;
+          break;
+        case "FINE":
+          pen = finePen;
           break;
         default:
           pen = infoPen;

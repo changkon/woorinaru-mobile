@@ -74,6 +74,9 @@ flutter:
         - asset: assets/fonts/Gaegu-Regular.ttf
         - asset: assets/fonts/Gaegu-Bold.ttf
           weight: 700
+    - family: NotoSansKr
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Regular.otf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
