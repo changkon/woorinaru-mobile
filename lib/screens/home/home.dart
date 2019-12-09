@@ -8,6 +8,7 @@ import '../../service/term_service.dart';
 import '../../models/event/event.dart';
 import '../../models/term/term.dart';
 import '../../service/event_service.dart';
+import '../../components/typography/title.dart' as WoorinaruTitle;
 
 class Home extends StatefulWidget {
   @override
@@ -117,11 +118,17 @@ class _HomeState extends State<Home> {
       appBar: appBar,
       drawer: WoorinaruDrawer(),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _getUpcomingEventsWidget(_upcomingEvents),
-            _getPastEventsWidget(_pastEvents),
-          ],
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              WoorinaruTitle.Title(AppLocalizations.of(context).trans('upcoming_events_title')),
+              _getUpcomingEventsWidget(_upcomingEvents),
+              WoorinaruTitle.Title(AppLocalizations.of(context).trans('past_events_title')),
+              _getPastEventsWidget(_pastEvents),
+            ],
+          ),
         ),
       ),
     );

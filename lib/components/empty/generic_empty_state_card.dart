@@ -22,7 +22,7 @@ class GenericEmptyStateCard extends StatelessWidget {
     return Container(
       child: Card(
         child: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(10),
           child: Row(
             children: <Widget>[
               Expanded(
