@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:woorinaru/components/empty/generic_empty_state_card.dart';
 import '../../components/localization/app_localizations.dart';
 import '../../components/appbar/woorinaru_app_bar.dart';
 import '../../components/drawer/woorinaru_drawer.dart';
@@ -56,50 +57,11 @@ class _HomeState extends State<Home> {
   }
 
   Widget _getEmptyUpcomingEventsWidget() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Card(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                AppLocalizations.of(context).trans('upcoming_events_title'),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 75,
-                      width: 75,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Icon(
-                          Icons.event_busy,
-                          color: Colors.black45,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      AppLocalizations.of(context)
-                          .trans('upcoming_events_empty'),
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return GenericEmptyStateCard(
+      title: AppLocalizations.of(context).trans('upcoming_events_title'),
+      description: AppLocalizations.of(context).trans('upcoming_events_empty'),
+      assetName: "assets/icons/bx-calendar-x.svg",
+      color: Colors.amberAccent,
     );
   }
 
@@ -125,30 +87,10 @@ class _HomeState extends State<Home> {
   }
 
   Widget _getEmptyPastEventsWidget() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Card(
-        child: Container(
-          alignment: Alignment.topLeft,
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                AppLocalizations.of(context).trans('past_events_title'),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                AppLocalizations.of(context).trans('past_events_empty'),
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20,),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return GenericEmptyStateCard(
+      title: AppLocalizations.of(context).trans('past_events_title'),
+      description: AppLocalizations.of(context).trans('past_events_empty'),
+      assetName: "assets/icons/bx-history.svg",
     );
   }
 
@@ -174,19 +116,14 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: appBar,
       drawer: WoorinaruDrawer(),
-      body: LayoutBuilder(builder: (context, constraints) {
-        return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: Column(
-            children: <Widget>[
-              _getUpcomingEventsWidget(_upcomingEvents),
-              _getPastEventsWidget(_pastEvents),
-            ],
-          ),
-        );
-      }),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _getUpcomingEventsWidget(_upcomingEvents),
+            _getPastEventsWidget(_pastEvents),
+          ],
+        ),
+      ),
     );
   }
 }
