@@ -9,6 +9,7 @@ import '../../models/event/event.dart';
 import '../../models/term/term.dart';
 import '../../service/event_service.dart';
 import '../../components/typography/title.dart' as WoorinaruTitle;
+import '../../components/event/event_card.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,8 +17,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Event> _upcomingEvents;
-  List<Event> _pastEvents;
+  List<Event> _upcomingEvents = [];
+  List<Event> _pastEvents = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -31,11 +33,16 @@ class _HomeState extends State<Home> {
   }
 
   void _initEvents() async {
+    setState(() {
+      isLoading = true;
+    });
+
     // initialise
     TermService termService = Provider.of<TermService>(context, listen: false);
     EventService eventService =
         Provider.of<EventService>(context, listen: false);
     int latestTermId = await termService.getLatestTermId();
+
     if (latestTermId != -1) {
       Term term = await termService.getTerm(latestTermId);
       // Get current date
@@ -47,12 +54,18 @@ class _HomeState extends State<Home> {
         if (event.startDateTime.isBefore(now)) {
           setState(() {
             _pastEvents.add(event);
+            isLoading = false;
           });
         } else {
           setState(() {
             _upcomingEvents.add(event);
+            isLoading = false;
           });
         }
+      });
+    } else {
+      setState(() {
+        isLoading = false;
       });
     }
   }
@@ -96,7 +109,14 @@ class _HomeState extends State<Home> {
   }
 
   Widget _getPastEventsListWidget(List<Event> pastEvents) {
-    return null;
+    return Expanded(
+      child: ListView.builder(
+        itemCount: pastEvents.length,
+        itemBuilder: (BuildContext ctx, int index) {
+          return EventCard(pastEvents[index]);
+        },
+      ),
+    );
   }
 
   Widget _getPastEventsWidget(List<Event> pastEvents) {
@@ -104,6 +124,29 @@ class _HomeState extends State<Home> {
       return _getEmptyPastEventsWidget();
     } else {
       return _getPastEventsListWidget(pastEvents);
+    }
+  }
+
+  List<Widget> _displayWidgets(bool isLoading) {
+    if (isLoading) {
+      return [
+        Expanded(
+          child: Center(
+            child: new CircularProgressIndicator(),
+          ),
+        ),
+      ];
+    } else {
+      return [
+        WoorinaruTitle.Title(
+          AppLocalizations.of(context).trans('upcoming_events_title'),
+        ),
+        _getUpcomingEventsWidget(_upcomingEvents),
+        WoorinaruTitle.Title(
+          AppLocalizations.of(context).trans('past_events_title'),
+        ),
+        _getPastEventsWidget(_pastEvents),
+      ];
     }
   }
 
@@ -119,14 +162,12 @@ class _HomeState extends State<Home> {
       drawer: WoorinaruDrawer(),
       body: SingleChildScrollView(
         child: Container(
+          height: availableScreenHeight,
           padding: EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              WoorinaruTitle.Title(AppLocalizations.of(context).trans('upcoming_events_title')),
-              _getUpcomingEventsWidget(_upcomingEvents),
-              WoorinaruTitle.Title(AppLocalizations.of(context).trans('past_events_title')),
-              _getPastEventsWidget(_pastEvents),
+              ..._displayWidgets(this.isLoading),
             ],
           ),
         ),

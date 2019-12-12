@@ -9,5 +9,6 @@
   "upcoming_events_title": "Upcoming Events",
   "upcoming_events_empty": "There are no upcoming events",
   "past_events_title": "Past Events",
-  "past_events_empty": "There were no past events"
+  "past_events_empty": "There were no past events",
+  "min": "min"
 }

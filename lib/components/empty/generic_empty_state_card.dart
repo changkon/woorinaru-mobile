@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 import '../localization/app_localizations.dart';
 
 class GenericEmptyStateCard extends StatelessWidget {
-
   String title;
   String description;
   String assetName;
@@ -26,6 +25,7 @@ class GenericEmptyStateCard extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Expanded(
+                flex: 4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -46,15 +46,18 @@ class GenericEmptyStateCard extends StatelessWidget {
                   ],
                 ),
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: 72,
-                  minHeight: 72,
-                ),
-                child: SvgPicture.asset(
-                  this.assetName,
-                  semanticsLabel: 'Empty Logo',
-                  color: this.color,
+              Expanded(
+                flex: 1,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 72,
+                    minWidth: 72,
+                  ),
+                  child: SvgPicture.asset(
+                    this.assetName,
+                    semanticsLabel: 'Empty Logo',
+                    color: this.color,
+                  ),
                 ),
               ),
             ],

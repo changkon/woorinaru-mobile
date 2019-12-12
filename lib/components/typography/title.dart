@@ -5,6 +5,12 @@ class Title extends StatelessWidget {
 
   Title(this.text);
 
+  double _getFontSize(BuildContext context) {
+    double size = MediaQuery.of(context).size.longestSide;
+    // HARD coded for now
+    return 20;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +20,7 @@ class Title extends StatelessWidget {
             this.text,
             style: TextStyle(
               color: Theme.of(context).primaryColorDark,
-              fontSize: 20,
+              fontSize: _getFontSize(context),
               fontWeight: FontWeight.bold,
             ),
           ),

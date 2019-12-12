@@ -54,4 +54,11 @@ class BuildEnvironment {
     _initLogger(Level.ALL);
     return _env;
   }
+
+  static BuildEnvironment initEmulator() {
+    String appUrl = 'http://10.0.2.2:8080/woorinaru/api';
+    init(flavor: BuildFlavor.development, baseUrl: appUrl);
+    _initLogger(Level.ALL);
+    return _env;
+  }
 }
