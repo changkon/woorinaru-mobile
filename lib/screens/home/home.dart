@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:woorinaru/components/empty/generic_empty_state_card.dart';
+import '../../components/empty/generic_empty_state_card.dart';
+import '../../components/nav/nav_bar.dart';
 import '../../components/localization/app_localizations.dart';
 import '../../components/appbar/woorinaru_app_bar.dart';
 import '../../components/drawer/woorinaru_drawer.dart';
@@ -153,6 +154,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     WoorinaruAppBar appBar = WoorinaruAppBar();
+    NavBar navBar = NavBar();
     double availableScreenHeight = (MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top);
@@ -165,9 +167,11 @@ class _HomeState extends State<Home> {
           height: availableScreenHeight,
           padding: EdgeInsets.all(15),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               ..._displayWidgets(this.isLoading),
+              navBar,
             ],
           ),
         ),

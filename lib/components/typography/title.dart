@@ -15,6 +15,7 @@ class Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             this.text,
