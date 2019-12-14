@@ -34,8 +34,14 @@ class _HomeState extends State<Home> {
   }
 
   void _initEvents() async {
+    _loadEvents();
+  }
+
+  Future<void> _loadEvents() async {
     setState(() {
       isLoading = true;
+      _upcomingEvents = [];
+      _pastEvents = [];
     });
 
     // initialise
@@ -162,17 +168,21 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: appBar,
       drawer: WoorinaruDrawer(),
-      body: SingleChildScrollView(
-        child: Container(
-          height: availableScreenHeight,
-          padding: EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              ..._displayWidgets(this.isLoading),
-              navBar,
-            ],
+      body: RefreshIndicator(
+        onRefresh: this._loadEvents,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: availableScreenHeight,
+            padding: EdgeInsets.all(15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                ..._displayWidgets(this.isLoading),
+                navBar,
+              ],
+            ),
           ),
         ),
       ),
