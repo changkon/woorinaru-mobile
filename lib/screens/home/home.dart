@@ -118,6 +118,7 @@ class _HomeState extends State<Home> {
   Widget _getPastEventsListWidget(List<Event> pastEvents) {
     return Expanded(
       child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
         itemCount: pastEvents.length,
         itemBuilder: (BuildContext ctx, int index) {
           return EventCard(pastEvents[index]);
