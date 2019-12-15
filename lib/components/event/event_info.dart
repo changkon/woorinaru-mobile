@@ -14,23 +14,15 @@ class EventInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(
               right: 5,
             ),
-            constraints: BoxConstraints(
-              maxHeight: 15,
-              maxWidth: 15,
-            ),
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: SvgPicture.asset(
-                this.svgPath,
-                color: Colors.grey,
-              ),
+            constraints: BoxConstraints(maxHeight: 15, maxWidth: 15),
+            child: SvgPicture.asset(
+              this.svgPath,
+              color: Colors.grey,
             ),
           ),
           Text(

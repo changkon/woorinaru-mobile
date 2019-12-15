@@ -12,27 +12,30 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 30,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: SvgPicture.asset(
-              'assets/icons/bx-home.svg',
-              semanticsLabel: 'Home',
-              color: Colors.black,
-            ),
-          ),
-          Expanded(
-            child: SvgPicture.asset(
-              'assets/icons/bx-heart.svg',
-              semanticsLabel: 'Favourite',
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
+    // return Container(
+    //   width: MediaQuery.of(context).size.width,
+    //   height: 30,
+    //   child: Row(
+    //     children: <Widget>[
+    //       Expanded(
+    //         child: SvgPicture.asset(
+    //           'assets/icons/bx-home.svg',
+    //           semanticsLabel: 'Home',
+    //           color: Colors.black,
+    //         ),
+    //       ),
+    //       Expanded(
+    //         child: SvgPicture.asset(
+    //           'assets/icons/bx-heart.svg',
+    //           semanticsLabel: 'Favourite',
+    //           color: Colors.black,
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+    // return Consumer<ClientModel>(
+    //   // builder: (_, clientModel, __) => 
+    // );
   }
 }
