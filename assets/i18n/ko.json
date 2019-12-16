@@ -10,5 +10,6 @@
   "upcoming_events_empty": "현재 진행중 이벤트 없음",
   "past_events_title": "과거 이벤트",
   "past_events_empty": "과거 이벤트 없었습니다",
-  "min": "분"
+  "min": "분",
+  "favourite_resources": "좋아하는 물건"
 }

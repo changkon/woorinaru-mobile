@@ -66,14 +66,12 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: appBar,
       drawer: WoorinaruDrawer(),
-      body: Center(
-        child: RefreshIndicator(
-          onRefresh: _tabDetails[currentTab]['refreshCallback'],
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(15.0),
-            physics: AlwaysScrollableScrollPhysics(),
-            child: _tabDetails[currentTab]['widget'],
-          ),
+      body: RefreshIndicator(
+        onRefresh: _tabDetails[currentTab]['refreshCallback'],
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(15.0),
+          physics: AlwaysScrollableScrollPhysics(),
+          child: _tabDetails[currentTab]['widget'],
         ),
       ),
       bottomNavigationBar: WoorinaruNavBar.NavBar(

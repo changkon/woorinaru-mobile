@@ -138,7 +138,7 @@ class _HomeTabState extends State<HomeTab> {
     if (isLoading) {
       return [
         Center(
-          child: new CircularProgressIndicator(),
+          child: CircularProgressIndicator(),
         ),
       ];
     } else {
