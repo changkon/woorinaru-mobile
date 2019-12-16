@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/user/client_model.dart';
 import '../../models/user/user.dart';
@@ -26,15 +28,62 @@ class _WoorinaruDrawerState extends State<WoorinaruDrawer> {
   }
 
   List<Widget> _commonWidgets() {
-    return [];
+    List<Widget> widgets = [];
+
+    ListTile facebookListTile = ListTile(
+      onTap: () async => launch('https://facebook.com/woorinaru'),
+      title: const Text('Facebook'),
+      trailing: SvgPicture.asset(
+        'assets/icons/bxl-facebook-square.svg',
+        semanticsLabel: 'Facebook',
+        color: Colors.blueAccent,
+      ),
+    );
+
+    ListTile instagramListTile = ListTile(
+      onTap: () async => launch('https://instagram.com/woori_naru'),
+      title: const Text('Instagram'),
+      trailing: SvgPicture.asset(
+        'assets/icons/bxl-instagram.svg',
+        semanticsLabel: 'Instagram',
+        color: Colors.deepPurpleAccent,
+      ),
+    );
+
+    ListTile youtubeListTile = ListTile(
+      onTap: () async => launch('https://www.youtube.com/channel/UCm51IEBxHG0x4-YBAnC-Sgw'),
+      title: const Text('Youtube'),
+      trailing: SvgPicture.asset(
+        'assets/icons/bxl-youtube.svg',
+        semanticsLabel: 'Youtube',
+        color: Colors.redAccent,
+      ),
+    );
+
+    ListTile websiteListTile = ListTile(
+      onTap: () async => launch('https://www.woorinaru.com'),
+      title: const Text('Website'),
+      trailing: SvgPicture.asset(
+        'assets/icons/bx-link-external.svg',
+        semanticsLabel: 'Website',
+        color: Colors.grey,
+      ),
+    );
+
+    widgets.add(facebookListTile);
+    widgets.add(instagramListTile);
+    widgets.add(youtubeListTile);
+    widgets.add(websiteListTile);
+    return widgets;
   }
 
   List<Widget> _commonLoggedInWidgets() {
     List<Widget> widgets = [];
 
     ListTile logoutListTile = ListTile(
+      onTap: () => print('Tap'),
       title: Text(AppLocalizations.of(context).trans('logout')),
-      trailing: IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {}),
+      trailing: Icon(Icons.exit_to_app),
     );
 
     widgets.add(logoutListTile);
@@ -44,6 +93,7 @@ class _WoorinaruDrawerState extends State<WoorinaruDrawer> {
   List<Widget> _studentListTiles() {
     List<Widget> widgets = [];
     widgets.addAll(_commonWidgets());
+    widgets.add(new Divider());
     widgets.addAll(_commonLoggedInWidgets());
     return widgets;
   }
@@ -51,6 +101,7 @@ class _WoorinaruDrawerState extends State<WoorinaruDrawer> {
   List<Widget> _staffListTiles() {
     List<Widget> widgets = [];
     widgets.addAll(_commonWidgets());
+    widgets.add(new Divider());
     widgets.addAll(_commonLoggedInWidgets());
     return widgets;
   }
@@ -58,6 +109,7 @@ class _WoorinaruDrawerState extends State<WoorinaruDrawer> {
   List<Widget> _adminListTiles() {
     List<Widget> widgets = [];
     widgets.addAll(_commonWidgets());
+    widgets.add(new Divider());
     widgets.addAll(_commonLoggedInWidgets());
     return widgets;
   }

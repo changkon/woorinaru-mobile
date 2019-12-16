@@ -4,6 +4,7 @@ import 'config/env.dart';
 import './woorinaru_app.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   BuildEnvironment.initDev();
   assert(env != null);
   // Only allow portrait
