@@ -9,10 +9,10 @@ import '../../models/term/term.dart';
 import '../../service/event_service.dart';
 import '../../components/typography/title.dart' as WoorinaruTitle;
 import '../../components/event/event_card.dart';
-import './woorinaru_tab.dart';
+import './tab.dart' as WoorinaruTab;
 
-class HomeTab extends StatefulWidget implements WoorinaruTab {
-  _HomeTabState homeTabState = _HomeTabState();
+class HomeTab extends StatefulWidget implements WoorinaruTab.Tab {
+  _HomeTabState homeTabState;
 
   @override
   Future<void> onRefresh() {
@@ -20,7 +20,10 @@ class HomeTab extends StatefulWidget implements WoorinaruTab {
   }
 
   @override
-  _HomeTabState createState() => homeTabState;
+  _HomeTabState createState() {
+    homeTabState = _HomeTabState();
+    return homeTabState;
+  }
 }
 
 class _HomeTabState extends State<HomeTab> {
@@ -95,17 +98,6 @@ class _HomeTabState extends State<HomeTab> {
   List<Widget> _getUpcomingEventsListWidget(List<Event> upcomingEvents) {
     List<Widget> upcomingEvents = [];
     return upcomingEvents;
-
-    // return ListView.builder(
-    //     padding: const EdgeInsets.all(8),
-    //     itemCount: upcomingEvents.length,
-    //     itemBuilder: (BuildContext context, int index) {
-    //       return Container(
-    //         height: 50,
-    //         child: Center(
-    //             child: Text('Entry ${upcomingEvents[index].description}')),
-    //       );
-    //     });
   }
 
   List<Widget> _getUpcomingEventsWidget(List<Event> upcomingEvents) {
@@ -173,20 +165,5 @@ class _HomeTabState extends State<HomeTab> {
         ..._displayWidgets(this.isLoading),
       ],
     );
-    // return LayoutBuilder(
-    //   builder: (context, constraints) {
-    //     return Container(
-    //       // width: constraints.biggest.width,
-    //       // height: constraints.biggest.height,
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         crossAxisAlignment: CrossAxisAlignment.stretch,
-    //         children: <Widget>[
-    //           ..._displayWidgets(this.isLoading),
-    //         ],
-    //       ),
-    //     );
-    //   },
-    // );
   }
 }
