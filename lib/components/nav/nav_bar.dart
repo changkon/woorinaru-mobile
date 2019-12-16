@@ -38,7 +38,7 @@ class NavBar extends StatelessWidget {
             child: SvgPicture.asset(
               svgPath,
               semanticsLabel: label,
-              color: Colors.white,
+              color: index == currentTab ? Colors.black45 : Colors.white,
             ),
           ),
         );
