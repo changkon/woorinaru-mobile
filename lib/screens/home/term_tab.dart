@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import './tab.dart' as WoorinaruTab;
 
-class FavouriteTab extends StatefulWidget implements WoorinaruTab.Tab {
+class TermTab extends StatefulWidget implements WoorinaruTab.Tab {
 
-  _FavouriteTabState _favouriteTabState;
+  _TermTabState _termTabState;
 
   @override
-  _FavouriteTabState createState() {
-    _favouriteTabState = _FavouriteTabState();
-    return _favouriteTabState;
+  _TermTabState createState() {
+    _termTabState = _TermTabState();
+    return _termTabState;
   }
 
   @override
   Future<void> onRefresh() {
-    return _favouriteTabState._loadFavouriteResources();
+    return _termTabState._loadTerms();
   }
+
 }
 
-class _FavouriteTabState extends State<FavouriteTab> {
+class _TermTabState extends State<TermTab> {
 
-  Future<void> _loadFavouriteResources() async {
+  Future<void> _loadTerms() {
     return null;
   }
 
@@ -30,7 +31,7 @@ class _FavouriteTabState extends State<FavouriteTab> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text('Favourite'),
+        Text('Terms'),
       ],
     );
   }

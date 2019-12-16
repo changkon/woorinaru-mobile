@@ -5,6 +5,9 @@ import '../../components/drawer/woorinaru_drawer.dart';
 
 import './home_tab.dart';
 import './favourite_tab.dart';
+import './term_tab.dart';
+import './user_management_tab.dart';
+import './tabs.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,8 +15,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int currentTab = 0;
-  Map<int, Map> _tabDetails = {};
+  String currentTab = Tabs.HOME_TAB;
+  Map<String, Map> _tabDetails = {};
 
   @override
   void initState() {
@@ -27,14 +30,26 @@ class _HomeState extends State<Home> {
     favouriteTabMap['widget'] = favouriteTab;
     favouriteTabMap['refreshCallback'] = favouriteTab.onRefresh;
 
-    _tabDetails[0] = homeTabMap;
-    _tabDetails[1] = favouriteTabMap;
+    Map<String, dynamic> termTabMap = {};
+    TermTab termTab = TermTab();
+    termTabMap['widget'] = termTab;
+    termTabMap['refreshCallback'] = termTab.onRefresh;
+
+    Map<String, dynamic> userManagementTabMap = {};
+    UserManagementTab userManagementTab = UserManagementTab();
+    userManagementTabMap['widget'] = userManagementTab;
+    userManagementTabMap['refreshCallback'] = userManagementTab.onRefresh;
+
+    _tabDetails[Tabs.HOME_TAB] = homeTabMap;
+    _tabDetails[Tabs.FAVOURITE_TAB] = favouriteTabMap;
+    _tabDetails[Tabs.TERM_TAB] = termTabMap;
+    _tabDetails[Tabs.USER_MANAGEMENT_TAB] = userManagementTabMap;
   }
 
   // Callback
-  void onTabTap(int index) {
+  void onTabTap(String tab) {
     setState(() {
-      currentTab = index;
+      currentTab = tab;
     });
   }
 
