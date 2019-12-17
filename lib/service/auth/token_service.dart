@@ -86,6 +86,18 @@ class TokenService {
     return accessToken;
   }
 
+  Future<void> removeLocalIdToken() async {
+    await this.localStorageService.removeIdToken();
+  }
+
+  Future<void> removeLocalIdRefreshToken() async {
+    await this.localStorageService.removeIdRefreshToken();
+  }
+
+  Future<void> removeLocalAccessToken() async {
+    await this.localStorageService.removeAccessToken();
+  }
+
   bool verifyAccessToken(String accessToken) {
     Map<String, dynamic> payload = JwtDecoder.getPayload(accessToken);
 

@@ -74,7 +74,11 @@ class WoorinaruNavBar extends StatelessWidget {
   List<Widget> _getItems(Client model) {
     List<Widget> items = [];
 
-    if (model.userType == UserType.ADMIN) {
+    if (model == null || model.userType == UserType.STUDENT) {
+      items.add(_items[Tabs.HOME_TAB]);
+      items.add(_items[Tabs.FAVOURITE_TAB]);
+      items.add(_items[Tabs.TERM_TAB]);
+    } else if (model.userType == UserType.ADMIN) {
       items.add(_items[Tabs.HOME_TAB]);
       items.add(_items[Tabs.FAVOURITE_TAB]);
       items.add(_createActionButton(model));
@@ -91,10 +95,6 @@ class WoorinaruNavBar extends StatelessWidget {
       if (staffRole == StaffRole.LEADER || staffRole == StaffRole.VICE_LEADER || staffRole == StaffRole.SUB_LEADER) {
         items.add(_items[Tabs.USER_MANAGEMENT_TAB]);
       }
-    } else {
-      items.add(_items[Tabs.HOME_TAB]);
-      items.add(_items[Tabs.FAVOURITE_TAB]);
-      items.add(_items[Tabs.TERM_TAB]);
     }
 
     return items;

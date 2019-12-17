@@ -7,6 +7,13 @@ import '../../model/user/client_model.dart';
 import '../../model/user/user.dart';
 import '../../theme/localization/app_localizations.dart';
 
+import '../../service/storage/localstorage_service.dart';
+import '../../service/auth/token_service.dart';
+
+import '../../model/auth/woorinaru_access_token_payload.dart';
+
+import '../../route.dart' as WoorinaruRoute;
+
 class WoorinaruDrawer extends StatefulWidget {
   @override
   _WoorinaruDrawerState createState() => _WoorinaruDrawerState();
@@ -17,14 +24,42 @@ class _WoorinaruDrawerState extends State<WoorinaruDrawer> {
     List<Widget> widgets = [];
 
     ListTile loginListTile = ListTile(
+      onTap: () => Navigator.of(context).pushNamed(WoorinaruRoute.Route.LOGIN),
       title: Text(AppLocalizations.of(context).trans('login')),
-      trailing: IconButton(icon: Icon(Icons.person), onPressed: () {}),
+      trailing: SvgPicture.asset(
+        'assets/icons/bx-user.svg',
+        semanticsLabel: 'User',
+        color: Colors.grey,
+      ),
     );
 
     widgets.add(loginListTile);
     widgets.add(new Divider());
     widgets.addAll(_commonWidgets());
     return widgets;
+  }
+
+  Future<void> _logout() async {
+    // Clear out local storage
+    // Login as guest
+    // Go to home page
+    TokenService tokenService = Provider.of<TokenService>(context, listen: false);
+
+    // Clear out local storage
+    await tokenService.removeLocalIdToken();
+    await tokenService.removeLocalIdRefreshToken();
+    await tokenService.removeLocalAccessToken();
+
+    String accessToken = await tokenService.generateAccessToken(idToken: null, refreshToken: null);
+    WoorinaruAccessTokenPayload tokenPayload = WoorinaruAccessTokenPayload.fromAccessToken(accessToken);
+
+    assert(tokenPayload.role == 'visitor');
+    // Login as guest and save access token
+    // Log in as guest
+    Provider.of<ClientModel>(context, listen: false).setLoggedInClient(null);
+
+    // Go to home
+    Navigator.of(context).pushReplacementNamed(WoorinaruRoute.Route.HOME);
   }
 
   List<Widget> _commonWidgets() {
@@ -81,7 +116,7 @@ class _WoorinaruDrawerState extends State<WoorinaruDrawer> {
     List<Widget> widgets = [];
 
     ListTile logoutListTile = ListTile(
-      onTap: () => print('Tap'),
+      onTap: _logout,
       title: Text(AppLocalizations.of(context).trans('logout')),
       trailing: Icon(Icons.exit_to_app),
     );

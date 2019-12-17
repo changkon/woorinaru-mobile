@@ -14,7 +14,8 @@ class Route {
   static const String EVENT = '/event';
 
   static Map<String, WidgetBuilder> routes = {
-    ROOT: (context) => Init(),
-    HOME: (context) => Home(),
+    ROOT: (BuildContext context) => Init(),
+    HOME: (BuildContext context) => Home(),
+    LOGIN: (BuildContext context) => Login(),
   };
 }
