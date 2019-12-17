@@ -35,10 +35,12 @@ dependencies:
   flutter_svg: ^0.15.0
   intl: ^0.16.0
   url_launcher: ^5.4.1
+  linter: ^0.1.106
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # pedantics: ^1.0.0
 
 
 # For information on the generic Dart part of this file, see the

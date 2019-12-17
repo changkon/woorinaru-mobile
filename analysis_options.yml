@@ -1,0 +1,12 @@
+include: package:pedantic/analysis_options.1.8.0.yaml
+
+analyzer:
+  exclude: [build/**]
+  strong-mode:
+    implicit-casts: false
+
+linter:
+  rules:
+    - annotate_overrides
+    - prefer_single_quotes
+    - camel_case_types
