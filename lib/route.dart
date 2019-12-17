@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 // Import screens
-import './screens/splash/splash_screen.dart';
-import './screens/login/login.dart';
-import './screens/home/home.dart';
-import './screens/init/init.dart';
+import './screen/splash/splash_screen.dart';
+import './screen/login/login.dart';
+import './screen/home/home.dart';
+import './screen/init/init.dart';
 
 class Route {
   static const String ROOT = '/';

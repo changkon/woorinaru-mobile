@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
-import 'package:woorinaru/http/interceptor/jwt_interceptor.dart';
-import 'package:woorinaru/service/token_service.dart';
+import '../http/interceptor/jwt_interceptor.dart';
+import '../service/auth/token_service.dart';
 
 abstract class WoorinaruService {
   String baseUrl;

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-import '../../service/token_service.dart';
+import '../../service/auth/token_service.dart';
 
 class JwtInterceptor extends InterceptorsWrapper {
 

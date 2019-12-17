@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:woorinaru/service/identity_provider_service.dart';
+import './service/auth/identity_provider_service.dart';
 
-import './components/localization/app_localizations.dart';
+import './theme/localization/app_localizations.dart';
 import './route.dart' as WoorinaruRoute;
 import './config/env.dart';
-import './service/authentication_service.dart';
-import './service/localstorage_service.dart';
-import './service/token_service.dart';
-import './service/term_service.dart';
-import './service/event_service.dart';
+import './service/auth/authentication_service.dart';
+import './service/storage/localstorage_service.dart';
+import './service/auth/token_service.dart';
+import './service/term/term_service.dart';
+import './service/event/event_service.dart';
 
-import './models/user/client_model.dart';
+import './model/user/client_model.dart';
 
 class WoorinaruApp extends StatelessWidget {
   @override
