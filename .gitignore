@@ -74,3 +74,6 @@
 
 # Dependency
 .flutter-plugins-dependencies
+
+# Config files
+assets/config/config*.json

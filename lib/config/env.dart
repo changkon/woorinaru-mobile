@@ -1,6 +1,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:meta/meta.dart';
 import 'package:logging/logging.dart';
+import 'package:global_configuration/global_configuration.dart';
 
 enum BuildFlavor { production, staging, development }
 
@@ -8,13 +9,13 @@ BuildEnvironment get env => _env;
 BuildEnvironment _env;
 
 class BuildEnvironment {
-  final String baseUrl;
   final BuildFlavor flavor;
+  final Map<String, dynamic> config;
 
-  BuildEnvironment._init({this.baseUrl, this.flavor});
+  BuildEnvironment._init({this.flavor, this.config});
 
-  static void init({@required flavor, @required baseUrl}) {
-    _env ??= BuildEnvironment._init(flavor: flavor, baseUrl: baseUrl);
+  static void init({@required BuildFlavor flavor, @required Map<String, dynamic> config}) {
+    _env ??= BuildEnvironment._init(flavor: flavor, config: config);
   }
 
   static void _initLogger(Level level) {
@@ -48,16 +49,18 @@ class BuildEnvironment {
     });
   }
 
-  static BuildEnvironment initDev() {
-    String appUrl = 'http://localhost:8080/woorinaru/api';
-    init(flavor: BuildFlavor.development, baseUrl: appUrl);
+  static Future<BuildEnvironment> initDev() async {
+    await GlobalConfiguration().loadFromPath("assets/config/config.dev.json");
+    Map<String, dynamic> config = GlobalConfiguration().appConfig;
+    init(flavor: BuildFlavor.development, config: config);
     _initLogger(Level.ALL);
     return _env;
   }
 
-  static BuildEnvironment initEmulator() {
-    String appUrl = 'http://10.0.2.2:8080/woorinaru/api';
-    init(flavor: BuildFlavor.development, baseUrl: appUrl);
+  static Future<BuildEnvironment> initEmulator() async {
+    await GlobalConfiguration().loadFromPath("assets/config/config.dev.emulator.json");
+    Map<String, dynamic> config = GlobalConfiguration().appConfig;
+    init(flavor: BuildFlavor.development, config: config);
     _initLogger(Level.ALL);
     return _env;
   }

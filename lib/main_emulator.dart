@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'config/env.dart';
 import './woorinaru_app.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BuildEnvironment.initEmulator();
+  await BuildEnvironment.initEmulator();
   assert(env != null);
   // Only allow portrait
   SystemChrome.setPreferredOrientations([
