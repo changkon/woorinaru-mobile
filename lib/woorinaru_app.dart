@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:woorinaru/service/identity_provider_service.dart';
 
 import './components/localization/app_localizations.dart';
-import './route.dart' as MyRoute;
+import './route.dart' as WoorinaruRoute;
 import './config/env.dart';
 import './service/authentication_service.dart';
 import './service/localstorage_service.dart';
@@ -46,7 +46,7 @@ class WoorinaruApp extends StatelessWidget {
           accentColor: Colors.redAccent,
           fontFamily: 'NotoSansKr',
         ),
-        home: MyRoute.Route(),
+        // home: MyRoute.Route(),
         localizationsDelegates: [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -67,6 +67,8 @@ class WoorinaruApp extends StatelessWidget {
           // from the list (English, in this case).
           return supportedLocales.first;
         },
+        initialRoute: WoorinaruRoute.Route.ROOT,
+        routes: WoorinaruRoute.Route.routes,
       ),
     );
   }
