@@ -25,7 +25,8 @@ class WoorinaruNavBar extends StatelessWidget {
         'assets/icons/bx-heart.svg', 'Favourite Tab', Tabs.FAVOURITE_TAB);
     Widget termTab =
         _createTab('assets/icons/bx-archive.svg', 'Term Tab', Tabs.TERM_TAB);
-    Widget userManagementTab = _createTab('assets/icons/bxs-user-detail.svg', 'User Management Tab', Tabs.USER_MANAGEMENT_TAB);
+    Widget userManagementTab = _createTab('assets/icons/bxs-user-detail.svg',
+        'User Management Tab', Tabs.USER_MANAGEMENT_TAB);
 
     // Add tabs
     this._items[Tabs.HOME_TAB] = homeTab;
@@ -74,9 +75,8 @@ class WoorinaruNavBar extends StatelessWidget {
   List<Widget> _getItems(Client model) {
     List<Widget> items = [];
 
-    if (model == null || model.userType == UserType.STUDENT) {
+    if (model == null) {
       items.add(_items[Tabs.HOME_TAB]);
-      items.add(_items[Tabs.FAVOURITE_TAB]);
       items.add(_items[Tabs.TERM_TAB]);
     } else if (model.userType == UserType.ADMIN) {
       items.add(_items[Tabs.HOME_TAB]);
@@ -92,9 +92,15 @@ class WoorinaruNavBar extends StatelessWidget {
       items.add(_items[Tabs.TERM_TAB]);
 
       StaffRole staffRole = model.staffRole;
-      if (staffRole == StaffRole.LEADER || staffRole == StaffRole.VICE_LEADER || staffRole == StaffRole.SUB_LEADER) {
+      if (staffRole == StaffRole.LEADER ||
+          staffRole == StaffRole.VICE_LEADER ||
+          staffRole == StaffRole.SUB_LEADER) {
         items.add(_items[Tabs.USER_MANAGEMENT_TAB]);
       }
+    } else if (model.userType == UserType.STUDENT) {
+      items.add(_items[Tabs.HOME_TAB]);
+      items.add(_items[Tabs.FAVOURITE_TAB]);
+      items.add(_items[Tabs.TERM_TAB]);
     }
 
     return items;
