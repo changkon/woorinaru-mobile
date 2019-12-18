@@ -17,5 +17,8 @@
   "term_start_date": "시작 날",
   "term_end_date": "마지막 날",
   "term_teachers": "선생님",
-  "term_events": "이벤트"
+  "term_events": "이벤트",
+  "term_description": "제목",
+  "term_staff_members": "선생님",
+  "events": "이벤트"
 }

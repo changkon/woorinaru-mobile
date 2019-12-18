@@ -17,5 +17,8 @@
   "term_start_date": "Start Date",
   "term_end_date": "End Date",
   "term_teachers": "Staff Members",
-  "term_events": "Events"
+  "term_events": "Events",
+  "term_description": "Description",
+  "term_staff_members": "Staff",
+  "events": "Events"
 }

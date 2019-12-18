@@ -22,19 +22,21 @@ class WoorinaruApp extends StatelessWidget {
         // Services
         Provider<TokenService>(
           create: (_) => TokenService(
-            authenticationService: AuthenticationService(baseUrl: env.config['url']),
+            authenticationService:
+                AuthenticationService(baseUrl: env.config['url']),
             localStorageService: LocalStorageService(),
             identityProviderService: IdentityProviderService(),
           ),
         ),
         ProxyProvider<TokenService, TermService>(
-          builder: (_, tokenService, __) => TermService(baseUrl: env.config['url'], tokenService: tokenService)
-          // create: (context) => TermService(baseUrl: env.baseUrl, tokenService: Provider.of<TokenService>(context)),
-          // update: (context, tokenService, termService) => TermService(baseUrl: env.baseUrl, tokenService: tokenService)
-        ),
+            builder: (_, tokenService, __) => TermService(
+                baseUrl: env.config['url'], tokenService: tokenService)
+            // create: (context) => TermService(baseUrl: env.baseUrl, tokenService: Provider.of<TokenService>(context)),
+            // update: (context, tokenService, termService) => TermService(baseUrl: env.baseUrl, tokenService: tokenService)
+            ),
         ProxyProvider<TokenService, EventService>(
-          builder: (_, tokenService, __) => EventService(baseUrl: env.config['url'], tokenService: tokenService)
-        ),
+            builder: (_, tokenService, __) => EventService(
+                baseUrl: env.config['url'], tokenService: tokenService)),
         ChangeNotifierProvider(
           create: (_) => ClientModel(),
         ),
@@ -68,7 +70,8 @@ class WoorinaruApp extends StatelessWidget {
           return supportedLocales.first;
         },
         initialRoute: WoorinaruRoute.Route.ROOT,
-        routes: WoorinaruRoute.Route.routes,
+        // routes: WoorinaruRoute.Route.routes,
+        onGenerateRoute: WoorinaruRoute.Route.onGenerateRoutes,
       ),
     );
   }

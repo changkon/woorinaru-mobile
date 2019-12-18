@@ -5,7 +5,7 @@ import '../../theme/localization/app_localizations.dart';
 
 class Login extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+Widget build(BuildContext context) {
     WoorinaruAppBar appBar =
         WoorinaruAppBar(text: AppLocalizations.of(context).trans('login'));
 

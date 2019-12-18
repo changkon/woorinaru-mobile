@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:woorinaru/theme/localization/app_localizations.dart';
 
 import '../../model/term/term.dart';
+import '../../route.dart' as WoorinaruRoute;
 
 import './term_info.dart';
 
@@ -14,7 +15,11 @@ class TermCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => print('${this.term.id} clicked!'),
+      // onTap: () => print('${this.term.id} clicked!'),
+      onTap: () => Navigator.of(context).pushNamed(
+        WoorinaruRoute.Route.TERM,
+        arguments: {'term': this.term},
+      ),
       child: Container(
         child: Card(
           color: Colors.amberAccent,
