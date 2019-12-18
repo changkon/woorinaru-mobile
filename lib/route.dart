@@ -4,9 +4,9 @@ import './model/term/term.dart';
 
 // Import screens
 import './screen/splash/splash_screen.dart';
-import './screen/login/login.dart';
-import './screen/home/home.dart';
-import './screen/init/init.dart';
+import './screen/login/login_screen.dart';
+import './screen/home/home_screen.dart';
+import './screen/init/init_screen.dart';
 import './screen/term/term_screen.dart';
 
 class Route {
@@ -26,11 +26,11 @@ class Route {
     final String route = settings.name;
 
     if (route == ROOT) {
-      return MaterialPageRoute(builder: (BuildContext context) => Init());
+      return MaterialPageRoute(builder: (BuildContext context) => InitScreen());
     } else if (route == HOME) {
-      return MaterialPageRoute(builder: (BuildContext context) => Home());
+      return MaterialPageRoute(builder: (BuildContext context) => HomeScreen());
     } else if (route == LOGIN) {
-      return MaterialPageRoute(builder: (BuildContext context) => Login());
+      return MaterialPageRoute(builder: (BuildContext context) => LoginScreen());
     } else if (route == TERM) {
       final Map<String, dynamic> routeArgs =
           settings.arguments as Map<String, dynamic>;
@@ -40,6 +40,6 @@ class Route {
           builder: (BuildContext context) => TermScreen(term));
     }
 
-    return MaterialPageRoute(builder: (BuildContext context) => Init());
+    return MaterialPageRoute(builder: (BuildContext context) => InitScreen());
   };
 }

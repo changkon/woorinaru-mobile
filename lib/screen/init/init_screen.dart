@@ -12,12 +12,12 @@ import '../../model/auth/woorinaru_access_token_payload.dart';
 import '../../config/env.dart';
 import '../../route.dart' as WoorinaruRoute;
 
-class Init extends StatefulWidget {
+class InitScreen extends StatefulWidget {
   @override
-  _InitState createState() => _InitState();
+  _InitScreenState createState() => _InitScreenState();
 }
 
-class _InitState extends State<Init> {
+class _InitScreenState extends State<InitScreen> {
 
   // TODO
   bool _userFirstLoad = false;

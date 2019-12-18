@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../component/appbar/woorinaru_app_bar.dart';
 import '../../theme/localization/app_localizations.dart';
 
-class Login extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   @override
 Widget build(BuildContext context) {
     WoorinaruAppBar appBar =

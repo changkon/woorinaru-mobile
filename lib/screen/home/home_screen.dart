@@ -11,12 +11,12 @@ import './term_tab.dart';
 import './user_management_tab.dart';
 import './tabs.dart';
 
-class Home extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   String currentTab = Tabs.HOME_TAB;
   Map<String, Map> _tabDetails = {};
 
