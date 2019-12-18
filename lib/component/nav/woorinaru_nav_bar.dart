@@ -8,6 +8,9 @@ import '../../model/user/user.dart';
 import '../../screen/home/tabs.dart';
 
 class WoorinaruNavBar extends StatelessWidget {
+
+  static const double HEIGHT = 40;
+
   final String currentTab;
   final Function tabTapCallback;
   Map<String, Widget> _items;
@@ -114,7 +117,7 @@ class WoorinaruNavBar extends StatelessWidget {
       builder: (_, clientModel, __) => Material(
         elevation: 20.0,
         child: Container(
-          height: 40,
+          height: HEIGHT,
           color: Theme.of(context).primaryColor,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -65,18 +65,22 @@ class _HomeState extends State<Home> {
     var mediaQuery = MediaQuery.of(context);
     double availableScreenHeight = (mediaQuery.size.height -
         appBar.preferredSize.height -
-        mediaQuery.padding.top);
-    double availableWidth = mediaQuery.size.width;
+        mediaQuery.padding.top) - WoorinaruNavBar.HEIGHT;
+    double availableScreenWidth = mediaQuery.size.width;
 
     return Scaffold(
       appBar: appBar,
       drawer: WoorinaruDrawer(),
-      body: RefreshIndicator(
-        onRefresh: _tabDetails[currentTab]['refreshCallback'],
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(15.0),
-          physics: AlwaysScrollableScrollPhysics(),
-          child: _tabDetails[currentTab]['widget'],
+      body: Container(
+        height: availableScreenHeight,
+        width: availableScreenWidth,
+        child: RefreshIndicator(
+          onRefresh: _tabDetails[currentTab]['refreshCallback'],
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(15.0),
+            physics: AlwaysScrollableScrollPhysics(),
+            child: _tabDetails[currentTab]['widget'],
+          ),
         ),
       ),
       bottomNavigationBar: WoorinaruNavBar(

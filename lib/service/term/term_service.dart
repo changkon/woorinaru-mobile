@@ -15,11 +15,23 @@ class TermService extends WoorinaruService {
     @required TokenService tokenService,
   }) : super(baseUrl: baseUrl, tokenService: tokenService);
 
-  void getAllTerms() async {
+  Future<List<Term>> getAllTerms() async {
     log.info('Getting all terms');
     String url = '$baseUrl/term';
     Response response = await this.httpClient.get(url);
-    print(response.data);
+    if (response.data == null) {
+      log.warning('There are no terms');
+      return [];
+    }
+
+    List<Term> terms = [];
+    List<dynamic> jsonResponse = response.data;
+
+    jsonResponse.forEach((json) => {
+      terms.add(Term.fromJson(json))
+    });
+
+    return terms;
   }
 
   Future<Term> getTerm(int id) async {

@@ -11,5 +11,11 @@
   "past_events_title": "과거 이벤트",
   "past_events_empty": "과거 이벤트 없었습니다",
   "min": "분",
-  "favourite_resources": "좋아하는 물건"
+  "favourite_resources": "좋아하는 물건",
+  "terms": "기수",
+  "term_title": "기수",
+  "term_start_date": "시작 날",
+  "term_end_date": "마지막 날",
+  "term_teachers": "선생님",
+  "term_events": "이벤트"
 }
