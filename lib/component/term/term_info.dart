@@ -18,7 +18,7 @@ class TermInfo extends StatelessWidget {
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       columnWidths: {
         0: FlexColumnWidth(1),
-        1: FlexColumnWidth(5),
+        1: FlexColumnWidth(6),
       },
       children: [
         TableRow(
@@ -28,6 +28,7 @@ class TermInfo extends StatelessWidget {
               color: Colors.grey,
               height: 20,
               width: 20,
+              alignment: Alignment.centerLeft,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../model/user/user.dart';
 
 import '../../service/term/term_service.dart';
 import '../../service/event/event_service.dart';
+import '../../service/user/staff_service.dart';
 import '../../component/appbar/woorinaru_app_bar.dart';
 import '../../theme/localization/app_localizations.dart';
 
@@ -14,6 +16,8 @@ import '../../model/user/client_model.dart';
 import '../../model/user/client.dart';
 import '../../component/event/event_card.dart';
 import '../../theme/typography/title.dart' as WoorinaruTitle;
+
+import '../../component/term/term_info.dart';
 
 class TermScreen extends StatefulWidget {
   final Term term;
@@ -56,25 +60,34 @@ class _TermScreenState extends State<TermScreen> {
     TermService termService = Provider.of<TermService>(context, listen: false);
     EventService eventService =
         Provider.of<EventService>(context, listen: false);
+    StaffService staffService = Provider.of<StaffService>(context, listen: false);
 
     // Get term
     final Term updatedTerm = await termService.getTerm(this._term.id);
 
     // Get events
     List<Event> events = [];
-    _term.eventIds.forEach((id) async {
+
+    for (int i = 0; i < _term.eventIds.length; i++) {
       // add to collection
-      Event event = await eventService.getEvent(id);
+      Event event = await eventService.getEvent(_term.eventIds[i]);
       events.add(event);
-    });
+    }
 
     // TODO get staff members
+    List<User> staffMembers = [];
+
+      for (int i = 0; i < _term.staffMemberIds.length; i++) {
+      // add to collection
+      User staffMember = await staffService.getStaff(_term.staffMemberIds[i]);
+      staffMembers.add(staffMember);
+    }
 
     setState(() {
       _term = updatedTerm;
       _editableTerm = updatedTerm;
       _events = events;
-      _staffMembers = [];
+      _staffMembers = staffMembers;
       _isLoading = false;
     });
   }
@@ -124,6 +137,27 @@ class _TermScreenState extends State<TermScreen> {
     return [
       WoorinaruTitle.Title(
         AppLocalizations.of(context).trans('term_description'),
+      ),
+      TermInfo(
+        svgPath: 'assets/icons/bx-calendar.svg',
+        title: AppLocalizations.of(context).trans('term_start_date'),
+        text: '${DateFormat('yy/MM/dd').format(this._term.startDate)}'
+      ),
+      TermInfo(
+        svgPath: 'assets/icons/bx-calendar.svg',
+        title: AppLocalizations.of(context).trans('term_end_date'),
+        text: '${DateFormat('yy/MM/dd').format(this._term.endDate)}'
+      ),
+      TermInfo(
+        svgPath: 'assets/icons/bxs-group.svg',
+        title: AppLocalizations.of(context).trans('term_teachers'),
+        text: '${this._term.staffMemberIds.length}'
+      ),
+      TermInfo(
+        svgPath: 'assets/icons/bxs-bookmark.svg',
+        title:
+            AppLocalizations.of(context).trans('term_events'),
+        text: '${this._term.eventIds.length}',
       ),
     ];
   }

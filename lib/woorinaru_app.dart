@@ -11,6 +11,7 @@ import './service/storage/localstorage_service.dart';
 import './service/auth/token_service.dart';
 import './service/term/term_service.dart';
 import './service/event/event_service.dart';
+import './service/user/staff_service.dart';
 
 import './model/user/client_model.dart';
 
@@ -35,8 +36,13 @@ class WoorinaruApp extends StatelessWidget {
             // update: (context, tokenService, termService) => TermService(baseUrl: env.baseUrl, tokenService: tokenService)
             ),
         ProxyProvider<TokenService, EventService>(
-            builder: (_, tokenService, __) => EventService(
-                baseUrl: env.config['url'], tokenService: tokenService)),
+          builder: (_, tokenService, __) => EventService(
+              baseUrl: env.config['url'], tokenService: tokenService),
+        ),
+        ProxyProvider<TokenService, StaffService>(
+          builder: (_, tokenService, __) => StaffService(
+            baseUrl: env.config['url'], tokenService: tokenService),
+        ),
         ChangeNotifierProvider(
           create: (_) => ClientModel(),
         ),
