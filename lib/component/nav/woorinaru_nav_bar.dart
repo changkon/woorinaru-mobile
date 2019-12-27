@@ -7,6 +7,8 @@ import '../../model/user/client.dart';
 import '../../model/user/user.dart';
 import '../../screen/home/tabs.dart';
 
+import "../../route.dart" as WoorinaruRoute;
+
 class WoorinaruNavBar extends StatelessWidget {
 
   static const double HEIGHT = 40;
@@ -67,7 +69,7 @@ class WoorinaruNavBar extends StatelessWidget {
             color: Colors.white,
           ),
           // Add navigation
-          onPressed: () => print('Pressed'),
+          onPressed: () => Navigator.of(context).pushNamed(WoorinaruRoute.Route.CREATE_OPTION),
           iconSize: (constraints.biggest.height -
               (constraints.biggest.height * 0.15 * 2)),
         );

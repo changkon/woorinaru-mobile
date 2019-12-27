@@ -8,6 +8,7 @@ import './screen/login/login_screen.dart';
 import './screen/home/home_screen.dart';
 import './screen/init/init_screen.dart';
 import './screen/term/term_screen.dart';
+import './screen/create/create_option_screen.dart';
 
 class Route {
   static const String ROOT = '/';
@@ -15,6 +16,7 @@ class Route {
   static const String LOGIN = '/login';
   static const String TERM = '/term';
   static const String EVENT = '/event';
+  static const String CREATE_OPTION = '/create-option';
 
   // static Map<String, WidgetBuilder> routes = {
   //   ROOT: (BuildContext context) => Init(),
@@ -38,6 +40,8 @@ class Route {
 
       return MaterialPageRoute(
           builder: (BuildContext context) => TermScreen(term));
+    } else if (route == CREATE_OPTION) {
+      return MaterialPageRoute(builder: (BuildContext context) => CreateOptionScreen());
     }
 
     return MaterialPageRoute(builder: (BuildContext context) => InitScreen());

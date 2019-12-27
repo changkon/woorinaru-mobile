@@ -11,7 +11,7 @@
   "past_events_title": "과거 이벤트",
   "past_events_empty": "과거 이벤트 없었습니다",
   "min": "분",
-  "favourite_resources": "좋아하는 물건",
+  "favourite_resources": "좋아하는 자원",
   "terms": "기수",
   "term_title": "기수",
   "term_start_date": "시작 날",
@@ -20,5 +20,12 @@
   "term_events": "이벤트",
   "term_description": "제목",
   "term_staff_members": "선생님",
-  "events": "이벤트"
+  "events": "이벤트",
+  "create": "만들기",
+  "create_term_title": "기수",
+  "create_term_subtitle": "새로운 기수 시작하기",
+  "create_event_title": "이벤트",
+  "create_event_subtitle": "새로운 이벤트를 만들기",
+  "create_resource_title": "자원",
+  "create_resource_subtitle": "새로운 자원을 올리기"
 }

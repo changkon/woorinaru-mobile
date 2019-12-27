@@ -51,8 +51,10 @@ class _HomeTabState extends State<HomeTab> {
       isLoading = true;
     });
 
+    // reset
     _upcomingEvents = [];
     _pastEvents = [];
+
     // initialise
     TermService termService = Provider.of<TermService>(context, listen: false);
     EventService eventService =
@@ -64,21 +66,47 @@ class _HomeTabState extends State<HomeTab> {
       // Get current date
       DateTime now = DateTime.now();
 
-      term.eventIds.forEach((id) async {
-        // add to collection
-        Event event = await eventService.getEvent(id);
+      List<Future<Event>> eventFutures = [];
+
+      // term.eventIds.forEach((id) async {
+      //   // add to collection
+      //   Event event = await eventService.getEvent(id);
+      //   if (event.startDateTime.isBefore(now)) {
+      //     setState(() {
+      //       _pastEvents.add(event);
+      //       isLoading = false;
+      //     });
+      //   } else {
+      //     setState(() {
+      //       _upcomingEvents.add(event);
+      //       isLoading = false;
+      //     });
+      //   }
+      // });
+
+      term.eventIds.forEach((id) {
+        eventFutures.add(eventService.getEvent(id));
+      });
+
+      List<Event> events = await Future.wait(eventFutures);
+
+      List<Event> pastEvents = [];
+      List<Event> upcomingEvents = [];
+
+      events.forEach((event) {
         if (event.startDateTime.isBefore(now)) {
-          setState(() {
-            _pastEvents.add(event);
-            isLoading = false;
-          });
+          pastEvents.add(event);
         } else {
-          setState(() {
-            _upcomingEvents.add(event);
-            isLoading = false;
-          });
+          upcomingEvents.add(event);
         }
       });
+
+      setState(() {
+        _pastEvents.addAll(pastEvents);
+        _upcomingEvents.addAll(upcomingEvents);
+        isLoading = false;
+      });
+
     } else {
       setState(() {
         isLoading = false;
