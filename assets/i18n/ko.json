@@ -28,5 +28,8 @@
   "create_event_title": "이벤트",
   "create_event_subtitle": "새로운 이벤트를 만들기",
   "create_resource_title": "자원",
-  "create_resource_subtitle": "새로운 자원을 올리기"
+  "create_resource_subtitle": "새로운 자원을 올리기",
+  "event_duration": "기간",
+  "event_classes": "수업",
+  "event_students": "학생"
 }

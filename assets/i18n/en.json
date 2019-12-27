@@ -28,5 +28,8 @@
   "create_event_title": "Event",
   "create_event_subtitle": "Create a new event",
   "create_resource_title": "Resource",
-  "create_resource_subtitle": "Create a new resource"
+  "create_resource_subtitle": "Create a new resource",
+  "event_duration": "Duration",
+  "event_classes": "Classes",
+  "event_students": "Students"
 }

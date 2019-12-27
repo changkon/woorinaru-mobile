@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import '../../model/user/client_model.dart';
 import '../../component/empty/generic_empty_state_card.dart';
 import '../../theme/localization/app_localizations.dart';
 import '../../service/term/term_service.dart';
@@ -30,6 +31,7 @@ class _HomeTabState extends State<HomeTab> {
   List<Event> _upcomingEvents = [];
   List<Event> _pastEvents = [];
   bool isLoading = true;
+  ClientModel clientModel;
 
   @override
   void initState() {
@@ -106,7 +108,6 @@ class _HomeTabState extends State<HomeTab> {
         _upcomingEvents.addAll(upcomingEvents);
         isLoading = false;
       });
-
     } else {
       setState(() {
         isLoading = false;
@@ -148,7 +149,7 @@ class _HomeTabState extends State<HomeTab> {
 
   List<Widget> _getPastEventsListWidget(List<Event> pastEvents) {
     List<Widget> pastEventWidgets =
-        _pastEvents.map((pastEvent) => EventCard(pastEvent)).toList();
+        _pastEvents.map((pastEvent) => EventCard(pastEvent, this.clientModel)).toList();
     return pastEventWidgets;
   }
 
@@ -185,13 +186,19 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        ..._displayWidgets(this.isLoading),
-      ],
+    return Consumer<ClientModel>(
+      builder: (_, clientModel, __) {
+        this.clientModel = clientModel;
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ..._displayWidgets(this.isLoading),
+          ],
+        );
+      },
     );
   }
 }

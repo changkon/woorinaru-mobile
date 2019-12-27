@@ -171,8 +171,10 @@ class _TermScreenState extends State<TermScreen> {
   }
 
   List<Widget> _displayEvents() {
-    List<Widget> eventWidgets =
-        _events.map((event) => EventCard(event)).toList();
+    // List<Widget> eventWidgets =
+    //     _events.map((event) => EventCard(event)).toList();
+
+    List<Widget> eventWidgets = [];
 
     return [
       WoorinaruTitle.Title(
