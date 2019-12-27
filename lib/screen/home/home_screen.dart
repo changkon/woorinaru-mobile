@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../theme/localization/app_localizations.dart';
 import '../../component/nav/woorinaru_nav_bar.dart';
 import '../../component/appbar/woorinaru_app_bar.dart';
 import '../../component/drawer/woorinaru_drawer.dart';
+import '../../model/user/client_model.dart';
+import '../../model/user/client.dart';
 
 import './home_tab.dart';
 import './favourite_tab.dart';
@@ -64,28 +67,32 @@ class _HomeScreenState extends State<HomeScreen> {
     // WoorinaruNavBar.NavBar navBar = WoorinaruNavBar.NavBar(currentTab: this.currentTab, tabTapCallback: this.onTabTap);
     var mediaQuery = MediaQuery.of(context);
     double availableScreenHeight = (mediaQuery.size.height -
-        appBar.preferredSize.height -
-        mediaQuery.padding.top) - WoorinaruNavBar.HEIGHT;
+            appBar.preferredSize.height -
+            mediaQuery.padding.top) -
+        WoorinaruNavBar.HEIGHT;
     double availableScreenWidth = mediaQuery.size.width;
 
-    return Scaffold(
-      appBar: appBar,
-      drawer: WoorinaruDrawer(),
-      body: Container(
-        height: availableScreenHeight,
-        width: availableScreenWidth,
-        child: RefreshIndicator(
-          onRefresh: _tabDetails[currentTab]['refreshCallback'],
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(15.0),
-            physics: AlwaysScrollableScrollPhysics(),
-            child: _tabDetails[currentTab]['widget'],
+    return Consumer<ClientModel>(
+      builder: (_, clientModel, __) => Scaffold(
+        appBar: appBar,
+        drawer: WoorinaruDrawer(),
+        body: Container(
+          height: availableScreenHeight,
+          width: availableScreenWidth,
+          child: RefreshIndicator(
+            onRefresh: _tabDetails[currentTab]['refreshCallback'],
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(15.0),
+              physics: AlwaysScrollableScrollPhysics(),
+              child: _tabDetails[currentTab]['widget'],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: WoorinaruNavBar(
-        currentTab: this.currentTab,
-        tabTapCallback: this.onTabTap,
+        bottomNavigationBar: WoorinaruNavBar(
+          currentTab: this.currentTab,
+          tabTapCallback: this.onTabTap,
+          clientModel: clientModel,
+        ),
       ),
     );
   }

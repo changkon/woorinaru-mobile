@@ -10,20 +10,19 @@ import '../../screen/home/tabs.dart';
 import "../../route.dart" as WoorinaruRoute;
 
 class WoorinaruNavBar extends StatelessWidget {
-
   static const double HEIGHT = 40;
 
   final String currentTab;
   final Function tabTapCallback;
-  Map<String, Widget> _items;
+  final Map<String, Widget> _items = {};
+  final ClientModel clientModel;
 
   WoorinaruNavBar({
     Key key,
     this.currentTab,
     this.tabTapCallback,
+    this.clientModel,
   }) : super(key: key) {
-    this._items = {};
-
     Widget homeTab =
         _createTab('assets/icons/bxs-home.svg', 'Home Tab', Tabs.HOME_TAB);
     Widget favouriteTab = _createTab(
@@ -69,7 +68,8 @@ class WoorinaruNavBar extends StatelessWidget {
             color: Colors.white,
           ),
           // Add navigation
-          onPressed: () => Navigator.of(context).pushNamed(WoorinaruRoute.Route.CREATE_OPTION),
+          onPressed: () => Navigator.of(context)
+              .pushNamed(WoorinaruRoute.Route.CREATE_OPTION),
           iconSize: (constraints.biggest.height -
               (constraints.biggest.height * 0.15 * 2)),
         );
@@ -115,18 +115,16 @@ class WoorinaruNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
 
-    return Consumer<ClientModel>(
-      builder: (_, clientModel, __) => Material(
-        elevation: 20.0,
-        child: Container(
-          height: HEIGHT,
-          color: Theme.of(context).primaryColor,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              ..._getItems(clientModel.loggedInClient),
-            ],
-          ),
+    return Material(
+      elevation: 20.0,
+      child: Container(
+        height: HEIGHT,
+        color: Theme.of(context).primaryColor,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ..._getItems(this.clientModel.loggedInClient),
+          ],
         ),
       ),
     );
