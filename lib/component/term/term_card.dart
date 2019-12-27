@@ -12,6 +12,31 @@ class TermCard extends StatelessWidget {
 
   TermCard(this.term);
 
+  List<Widget> _getDateWidget(String title, DateTime date) {
+    return [
+      Text(
+        title,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 16,
+        ),
+      ),
+      Text(
+        DateFormat('EE dd').format(date),
+        style: TextStyle(
+          fontSize: 35,
+        ),
+      ),
+      Text(
+        DateFormat('MMMM yyyy').format(date),
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -23,87 +48,98 @@ class TermCard extends StatelessWidget {
       child: Container(
         child: Card(
           color: Colors.amberAccent,
-          child: Row(
-            // crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  child: Center(
-                    child: Text(
-                      '${AppLocalizations.of(context).trans('term_title')} ${this.term.term}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black38,
-                      ),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${AppLocalizations.of(context).trans('term_title')} ${this.term.term}',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black38,
                   ),
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.only(
-                    top: 10,
-                    left: 10,
-                    right: 10,
-                    bottom: 10,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      TermInfo(
-                        svgPath: 'assets/icons/bx-calendar.svg',
-                        title: AppLocalizations.of(context)
-                            .trans('term_start_date'),
-                        text:
-                            DateFormat('yy/MM/dd').format(this.term.startDate),
-                      ),
-                      TermInfo(
-                        svgPath: 'assets/icons/bx-calendar.svg',
-                        title:
-                            AppLocalizations.of(context).trans('term_end_date'),
-                        text: DateFormat('yy/MM/dd').format(this.term.endDate),
-                      ),
-                      TermInfo(
-                        svgPath: 'assets/icons/bxs-group.svg',
-                        title:
-                            AppLocalizations.of(context).trans('term_teachers'),
-                        text: '${this.term.staffMemberIds.length}',
-                      ),
-                      TermInfo(
-                        svgPath: 'assets/icons/bxs-bookmark.svg',
-                        title:
-                            AppLocalizations.of(context).trans('term_events'),
-                        text: '${this.term.eventIds.length}',
-                      ),
-                      // Text('Hello'),
-                      // Text('Hello'),
-                      // Text('Hello'),
-                      // Text('Hello'),
-                      // Text('Hello'),
-                    ],
-                  ),
+              Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              ..._getDateWidget(
+                                  AppLocalizations.of(context)
+                                      .trans('term_start_date'),
+                                  this.term.startDate),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              ..._getDateWidget(
+                                  AppLocalizations.of(context)
+                                      .trans('term_end_date'),
+                                  this.term.endDate),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                AppLocalizations.of(context)
+                                    .trans('term_teachers'),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                '${this.term.staffMemberIds.length}',
+                                style: TextStyle(fontSize: 35),
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                AppLocalizations.of(context)
+                                    .trans('term_events'),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                '${this.term.eventIds.length}',
+                                style: TextStyle(
+                                  fontSize: 35,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          // child: Column(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: <Widget>[
-          //     Text(
-          //       '${AppLocalizations.of(context).trans('term_title')} ${this.term.term}',
-          //       style: TextStyle(
-          //         fontSize: 18,
-          //         color: Theme.of(context).primaryColorDark,
-          //       ),
-          //     ),
-
-          //   ],
-          // ),
         ),
       ),
     );
