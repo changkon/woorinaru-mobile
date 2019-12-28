@@ -1,35 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:woorinaru/model/user/user.dart';
 
 import '../../model/user/client_model.dart';
 import '../../theme/localization/app_localizations.dart';
 import '../../model/event/event.dart';
+import '../../model/user/client.dart';
 import './event_info.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
   final ClientModel clientModel;
+  // TODO add callback
 
   EventCard(this.event, this.clientModel);
+
+  List<IconSlideAction> _getSlideAction() {
+    Client loggedInUser = clientModel.loggedInClient;
+    bool studentGuestSlideAction =
+        loggedInUser == null || loggedInUser.userType == UserType.STUDENT;
+
+    if (studentGuestSlideAction) {
+      return [
+        IconSlideAction(
+          caption: 'Join',
+          color: Colors.green,
+          icon: Icons.check,
+          onTap: () => print('Join'),
+          // TODO implement Join - modal for class join
+        ),
+      ];
+    } else {
+      return [
+        IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () => print('Delete'),
+          // TODO Delete event from term
+        ),
+      ];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     String date = DateFormat('dd').format(this.event.startDateTime);
     String monthYear = DateFormat('MMM yyyy').format(this.event.startDateTime);
     Duration diff = this.event.endDateTime.difference(this.event.startDateTime);
+    List<IconSlideAction> slideActions = _getSlideAction();
 
     // TODO change to Table layout later
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
       secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'Join',
-          color: Colors.green,
-          icon: Icons.check,
-          onTap: () => print('Check'),
-        ),
+        ...slideActions,
       ],
       child: InkWell(
         onTap: () => print('${this.event.id} clicked!'),

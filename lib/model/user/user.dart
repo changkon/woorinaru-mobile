@@ -84,4 +84,44 @@ class User {
       team: team,
     );
   }
+
+  String get getUserType {
+    switch (userType) {
+      case UserType.STAFF:
+        return "Staff";
+      case UserType.ADMIN:
+        return "Admin";
+      case UserType.STUDENT:
+      default:
+        return "Student";
+    }
+  }
+
+  String get getStaffRole {
+    switch (staffRole) {
+      case StaffRole.LEADER:
+        return "Leader";
+      case StaffRole.VICE_LEADER:
+        return "Vice Leader";
+      case StaffRole.SUB_LEADER:
+        return "Sub Leader";
+      case StaffRole.TEACHER:
+      default:
+        return "Teacher";
+    }
+  }
+
+  String get getTeam {
+    switch (team) {
+      case Team.DESIGN:
+        return "Design";
+      case Team.EDUCATION:
+        return "Education";
+      case Team.MEDIA:
+        return "Media";
+      case Team.PLANNING:
+      default:
+        return "Planning";
+    }
+  }
 }

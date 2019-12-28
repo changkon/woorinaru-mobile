@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:woorinaru/component/empty/generic_empty_state_card.dart';
+import 'package:woorinaru/screen/term/term_staff_list.dart';
 import '../../model/user/user.dart';
 
 import '../../service/term/term_service.dart';
@@ -34,6 +36,7 @@ class _TermScreenState extends State<TermScreen> {
   List<Event> _events;
   List<User> _staffMembers;
   bool _isLoading = false;
+  ClientModel clientModel;
 
   _TermScreenState(this._term) {
     _editableTerm = _term;
@@ -60,7 +63,8 @@ class _TermScreenState extends State<TermScreen> {
     TermService termService = Provider.of<TermService>(context, listen: false);
     EventService eventService =
         Provider.of<EventService>(context, listen: false);
-    StaffService staffService = Provider.of<StaffService>(context, listen: false);
+    StaffService staffService =
+        Provider.of<StaffService>(context, listen: false);
 
     // Get term
     final Term updatedTerm = await termService.getTerm(this._term.id);
@@ -77,7 +81,7 @@ class _TermScreenState extends State<TermScreen> {
     // TODO get staff members
     List<User> staffMembers = [];
 
-      for (int i = 0; i < _term.staffMemberIds.length; i++) {
+    for (int i = 0; i < _term.staffMemberIds.length; i++) {
       // add to collection
       User staffMember = await staffService.getStaff(_term.staffMemberIds[i]);
       staffMembers.add(staffMember);
@@ -139,46 +143,109 @@ class _TermScreenState extends State<TermScreen> {
         AppLocalizations.of(context).trans('term_description'),
       ),
       TermInfo(
-        svgPath: 'assets/icons/bx-calendar.svg',
-        title: AppLocalizations.of(context).trans('term_start_date'),
-        text: '${DateFormat('yy/MM/dd').format(this._term.startDate)}'
-      ),
+          svgPath: 'assets/icons/bx-calendar.svg',
+          title: AppLocalizations.of(context).trans('term_start_date'),
+          text: '${DateFormat('yy/MM/dd').format(this._term.startDate)}'),
       TermInfo(
-        svgPath: 'assets/icons/bx-calendar.svg',
-        title: AppLocalizations.of(context).trans('term_end_date'),
-        text: '${DateFormat('yy/MM/dd').format(this._term.endDate)}'
-      ),
+          svgPath: 'assets/icons/bx-calendar.svg',
+          title: AppLocalizations.of(context).trans('term_end_date'),
+          text: '${DateFormat('yy/MM/dd').format(this._term.endDate)}'),
       TermInfo(
-        svgPath: 'assets/icons/bxs-group.svg',
-        title: AppLocalizations.of(context).trans('term_teachers'),
-        text: '${this._term.staffMemberIds.length}'
-      ),
+          svgPath: 'assets/icons/bxs-group.svg',
+          title: AppLocalizations.of(context).trans('term_teachers'),
+          text: '${this._term.staffMemberIds.length}'),
       TermInfo(
         svgPath: 'assets/icons/bxs-bookmark.svg',
-        title:
-            AppLocalizations.of(context).trans('term_events'),
+        title: AppLocalizations.of(context).trans('term_events'),
         text: '${this._term.eventIds.length}',
       ),
     ];
   }
 
   List<Widget> _displayTermStaffMembers(Client client) {
-    return [
+    List<Widget> staffWidget = [];
+
+    if (_staffMembers.length == 0) {
+      staffWidget.add(Text('There are no staff'));
+    } else {
+      TermStaffList staffList = TermStaffList(_staffMembers);
+      staffWidget.add(staffList);
+    }
+
+    List<Widget> titleWidgets = [];
+    titleWidgets.add(
       WoorinaruTitle.Title(
         AppLocalizations.of(context).trans('term_staff_members'),
       ),
+    );
+    bool addButton = client == null
+        ? false
+        : client.userType == UserType.ADMIN ||
+            (client.userType == UserType.STAFF &&
+                client.staffRole == StaffRole.LEADER);
+    if (addButton) {
+      titleWidgets.add(
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {},
+        ),
+      );
+    }
+
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          ... titleWidgets
+        ],
+      ),
+      ...staffWidget,
     ];
   }
 
-  List<Widget> _displayEvents() {
-    // List<Widget> eventWidgets =
-    //     _events.map((event) => EventCard(event)).toList();
+  List<Widget> _displayEvents(Client client) {
+    List<Widget> eventWidgets =
+        _events.map((event) => EventCard(event, this.clientModel)).toList();
 
-    List<Widget> eventWidgets = [];
+    if (eventWidgets.length == 0) {
+      // add generic empty state
+      eventWidgets.add(
+        GenericEmptyStateCard(
+          title: AppLocalizations.of(context).trans('past_events_title'),
+          description: AppLocalizations.of(context).trans('past_events_empty'),
+          assetName: "assets/icons/bx-history.svg",
+        ),
+      );
+    }
+
+    List<Widget> titleWidgets = [];
+    titleWidgets.add(
+      WoorinaruTitle.Title(
+        AppLocalizations.of(context).trans('term_events'),
+      ),
+    );
+
+    bool addButton = client == null
+        ? false
+        : client.userType == UserType.ADMIN ||
+            client.userType == UserType.STAFF;
+    if (addButton) {
+      titleWidgets.add(
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {},
+        ),
+      );
+    }
+
+
 
     return [
-      WoorinaruTitle.Title(
-        AppLocalizations.of(context).trans('events'),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          ... titleWidgets
+        ],
       ),
       ...eventWidgets,
     ];
@@ -206,7 +273,7 @@ class _TermScreenState extends State<TermScreen> {
             children: <Widget>[
               ..._displayTermDescription(client),
               ..._displayTermStaffMembers(client),
-              ..._displayEvents(),
+              ..._displayEvents(client),
               ..._displayTermSaveButton(client),
             ],
           ),
@@ -238,14 +305,18 @@ class _TermScreenState extends State<TermScreen> {
             // padding: const EdgeInsets.all(15),
             physics: AlwaysScrollableScrollPhysics(),
             child: Consumer<ClientModel>(
-              builder: (_, clientModel, __) => Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  ..._displayWidgets(
-                      this._isLoading, clientModel.loggedInClient),
-                ],
-              ),
+              builder: (_, clientModel, __) {
+                this.clientModel = clientModel;
+
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    ..._displayWidgets(
+                        this._isLoading, clientModel.loggedInClient),
+                  ],
+                );
+              },
             ),
           ),
         ),
