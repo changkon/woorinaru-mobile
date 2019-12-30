@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import './lang/lang_dropdown.dart';
 
 class WoorinaruAppBar extends StatelessWidget implements PreferredSizeWidget {
-
   final String text;
 
   const WoorinaruAppBar({Key key, @required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return AppBar(
       title: Text(
         this.text,
@@ -17,6 +17,9 @@ class WoorinaruAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontWeight: FontWeight.w400,
         ),
       ),
+      actions: <Widget>[
+        LangDropDown(),
+      ],
     );
   }
 

@@ -14,6 +14,7 @@ import './service/event/event_service.dart';
 import './service/user/staff_service.dart';
 
 import './model/user/client_model.dart';
+import 'theme/localization/localization_model.dart';
 
 class WoorinaruApp extends StatelessWidget {
   @override
@@ -41,44 +42,55 @@ class WoorinaruApp extends StatelessWidget {
         ),
         ProxyProvider<TokenService, StaffService>(
           builder: (_, tokenService, __) => StaffService(
-            baseUrl: env.config['url'], tokenService: tokenService),
+              baseUrl: env.config['url'], tokenService: tokenService),
         ),
         ChangeNotifierProvider(
           create: (_) => ClientModel(),
         ),
-      ],
-      child: MaterialApp(
-        title: 'Woorinaru Beta',
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-          accentColor: Colors.redAccent,
-          fontFamily: 'NotoSansKr',
+        ChangeNotifierProvider(
+          // create: (_) => LocalizationModel()
+          create: (_) {
+            // Initiallly load
+            LocalizationModel localization = LocalizationModel();
+            localization.load();
+            return localization;
+          },
         ),
-        // home: MyRoute.Route(),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.SUPPORTED_LOCALES,
-        // Returns a locale which will be used by the app
-        localeResolutionCallback: (locale, supportedLocales) {
-          // Check if the current device locale is supported
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-                supportedLocale.countryCode == locale.countryCode) {
-              return supportedLocale;
+      ],
+      child: Consumer<LocalizationModel>(builder: (_, localeModel, __) {
+        return MaterialApp(
+          title: 'Woorinaru Beta',
+          theme: ThemeData(
+            primarySwatch: Colors.red,
+            accentColor: Colors.redAccent,
+            fontFamily: 'NotoSansKr',
+          ),
+          // home: MyRoute.Route(),
+          localizationsDelegates: [
+            AppLocalizationsDelegate(localeModel.currentLocale),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.SUPPORTED_LOCALES,
+          // Returns a locale which will be used by the app
+          localeResolutionCallback: (locale, supportedLocales) {
+            // Check if the current device locale is supported
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
             }
-          }
-          // If the locale of the device is not supported, use the first one
-          // from the list (English, in this case).
-          return supportedLocales.first;
-        },
-        initialRoute: WoorinaruRoute.Route.ROOT,
-        // routes: WoorinaruRoute.Route.routes,
-        onGenerateRoute: WoorinaruRoute.Route.onGenerateRoutes,
-      ),
+            // If the locale of the device is not supported, use the first one
+            // from the list (Korean, in this case).
+            return supportedLocales.first;
+          },
+          initialRoute: WoorinaruRoute.Route.ROOT,
+          // routes: WoorinaruRoute.Route.routes,
+          onGenerateRoute: WoorinaruRoute.Route.onGenerateRoutes,
+        );
+      }),
     );
   }
 }

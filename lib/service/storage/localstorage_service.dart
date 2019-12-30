@@ -32,6 +32,8 @@ class LocalStorageService {
     log.info('Deleted key: $key');
   }
 
+  // SAVE
+
   Future<void> saveIdToken(String token) async {
     _save(WoorinaruLocalStorage.ID_TOKEN, token);
   }
@@ -43,6 +45,12 @@ class LocalStorageService {
   Future<void> saveAccessToken(String token) async {
     _save(WoorinaruLocalStorage.ACCESS_TOKEN, token);
   }
+
+  Future<void> saveLocale(String locale) async {
+    _save(WoorinaruLocalStorage.LOCALE, locale);
+  }
+
+  // REMOVE
 
   Future<void> removeAccessToken() async {
     await _remove(WoorinaruLocalStorage.ACCESS_TOKEN);
@@ -56,6 +64,12 @@ class LocalStorageService {
     await _remove(WoorinaruLocalStorage.ID_REFRESH_TOKEN);
   }
 
+  Future<void> removeLocale() async {
+    await _remove(WoorinaruLocalStorage.LOCALE);
+  }
+
+  // GET
+
   Future<String> getIdToken() async {
     return _get(WoorinaruLocalStorage.ID_TOKEN);
   }
@@ -66,5 +80,9 @@ class LocalStorageService {
 
   Future<String> getAccessToken() async {
     return _get(WoorinaruLocalStorage.ACCESS_TOKEN);
+  }
+
+  Future<String> getLocale() async {
+    return _get(WoorinaruLocalStorage.LOCALE);
   }
 }
