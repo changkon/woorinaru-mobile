@@ -190,13 +190,16 @@ class _HomeTabState extends State<HomeTab> {
       builder: (_, clientModel, __) {
         this.clientModel = clientModel;
 
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ..._displayWidgets(this.isLoading),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(WoorinaruTab.Tab.PADDING),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              ..._displayWidgets(this.isLoading),
+            ],
+          ),
         );
       },
     );

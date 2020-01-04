@@ -78,6 +78,10 @@ class WoorinaruApp extends StatelessWidget {
                 color: Colors.grey,
                 fontSize: 10,
               ),
+              headline: TextStyle(
+                color: Colors.grey,
+                fontSize: 18,
+              ),
             ),
           ),
           // home: MyRoute.Route(),

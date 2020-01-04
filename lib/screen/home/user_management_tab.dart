@@ -25,13 +25,16 @@ class _UserManagementTabState extends State<UserManagementTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Text('User management'),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(WoorinaruTab.Tab.PADDING),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text('User management'),
+        ],
+      ),
     );
   }
 }

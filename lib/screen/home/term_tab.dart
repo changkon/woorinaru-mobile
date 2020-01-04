@@ -10,7 +10,6 @@ import '../../theme/typography/title.dart' as WoorinaruTitle;
 import '../../component/term/term_card.dart';
 
 class TermTab extends StatefulWidget implements WoorinaruTab.Tab {
-
   _TermTabState _termTabState;
 
   @override
@@ -23,11 +22,9 @@ class TermTab extends StatefulWidget implements WoorinaruTab.Tab {
   Future<void> onRefresh() {
     return _termTabState._loadTerms();
   }
-
 }
 
 class _TermTabState extends State<TermTab> {
-
   List<Term> _terms = [];
   bool isLoading = true;
 
@@ -69,25 +66,23 @@ class _TermTabState extends State<TermTab> {
         WoorinaruTitle.Title(
           AppLocalizations.of(context).trans('terms'),
         ),
-        ... _getTerms(_terms),
-        // ..._getUpcomingEventsWidget(_upcomingEvents),
-        // WoorinaruTitle.Title(
-        //   AppLocalizations.of(context).trans('past_events_title'),
-        // ),
-        // ..._getPastEventsWidget(_pastEvents),
+        ..._getTerms(_terms),
       ];
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        ..._displayWidgets(this.isLoading),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(WoorinaruTab.Tab.PADDING),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          ..._displayWidgets(this.isLoading),
+        ],
+      ),
     );
   }
 }

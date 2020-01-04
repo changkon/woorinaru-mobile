@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: RefreshIndicator(
             onRefresh: _tabDetails[currentTab]['refreshCallback'],
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(15.0),
+              // padding: const EdgeInsets.all(15.0),
               physics: AlwaysScrollableScrollPhysics(),
               child: _tabDetails[currentTab]['widget'],
             ),

@@ -46,13 +46,6 @@ class _TermScreenState extends State<TermScreen> {
   @override
   void initState() {
     super.initState();
-    // Extract arguments
-    // final Map<String, dynamic> routeArgs =
-    //     ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-
-    // setState(() {
-    //   term = routeArgs['term'] as Term;
-    // });
     _initTerm();
   }
 

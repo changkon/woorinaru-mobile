@@ -5,140 +5,76 @@ import 'package:woorinaru/theme/localization/app_localizations.dart';
 import '../../model/term/term.dart';
 import '../../route.dart' as WoorinaruRoute;
 
-import './term_info.dart';
+import '../icon/circular_icon.dart';
+import '../count/circular_count_view.dart';
+import '../icon/staff_circular_icon.dart';
+import '../icon/event_circular_icon.dart';
 
 class TermCard extends StatelessWidget {
   final Term term;
 
   TermCard(this.term);
 
-  List<Widget> _getDateWidget(String title, DateTime date) {
-    return [
-      Text(
-        title,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 16,
-        ),
-      ),
-      Text(
-        DateFormat('EE dd').format(date),
-        style: TextStyle(
-          fontSize: 35,
-        ),
-      ),
-      Text(
-        DateFormat('MMMM yyyy').format(date),
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 12,
-        ),
-      ),
-    ];
+  String _getFormattedDate(DateTime date) {
+    // return "Some date";
+    return DateFormat("EE dd MMM yyyy").format(date);
+  }
+
+  Widget _displayStaffMembers(List<int> staffMemberIds) {
+    if (staffMemberIds == null || staffMemberIds.isEmpty) {
+      return CircularCountView([], StaffCircularIcon());
+    } else {
+      List<StaffCircularIcon> circularIcons =
+          staffMemberIds.map((staff) => StaffCircularIcon()).toList();
+
+      return CircularCountView(circularIcons, StaffCircularIcon());
+    }
+  }
+
+  Widget _displayEvents(List<int> eventIds) {
+    if (eventIds == null || eventIds.isEmpty) {
+      return CircularCountView([], EventCircularIcon());
+    } else {
+      List<EventCircularIcon> circularIcons =
+          eventIds.map((event) => EventCircularIcon()).toList();
+
+      return CircularCountView(circularIcons, EventCircularIcon());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () => print('${this.term.id} clicked!'),
       onTap: () => Navigator.of(context).pushNamed(
         WoorinaruRoute.Route.TERM,
         arguments: {'term': this.term},
       ),
       child: Container(
         child: Card(
-          color: Colors.amberAccent,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
                   '${AppLocalizations.of(context).trans('term_title')} ${this.term.term}',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black38,
+                  style: Theme.of(context).textTheme.headline,
+                ),
+                Text(
+                  '${_getFormattedDate(this.term.startDate)} - ${_getFormattedDate(this.term.endDate)}',
+                  style: TextStyle(fontSize: 13),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Column(
+                    children: <Widget>[
+                      _displayEvents(this.term.eventIds),
+                      _displayStaffMembers(this.term.staffMemberIds),
+                    ],
                   ),
                 ),
-              ),
-              Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            children: <Widget>[
-                              ..._getDateWidget(
-                                  AppLocalizations.of(context)
-                                      .trans('term_start_date'),
-                                  this.term.startDate),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: <Widget>[
-                              ..._getDateWidget(
-                                  AppLocalizations.of(context)
-                                      .trans('term_end_date'),
-                                  this.term.endDate),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                AppLocalizations.of(context)
-                                    .trans('term_teachers'),
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Text(
-                                '${this.term.staffMemberIds.length}',
-                                style: TextStyle(fontSize: 35),
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                AppLocalizations.of(context)
-                                    .trans('term_events'),
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Text(
-                                '${this.term.eventIds.length}',
-                                style: TextStyle(
-                                  fontSize: 35,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -86,12 +86,15 @@ class _FavouriteTabState extends State<FavouriteTab> {
       builder: (_, clientModel, __) {
         this.clientModel = clientModel;
 
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ..._displayWidgets(this.isLoading),
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(WoorinaruTab.Tab.PADDING),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              ..._displayWidgets(this.isLoading),
+            ],
+          ),
         );
       },
     );
