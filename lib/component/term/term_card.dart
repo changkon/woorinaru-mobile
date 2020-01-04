@@ -56,6 +56,7 @@ class TermCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                // TODO add attending or not for staff members
                 Text(
                   '${AppLocalizations.of(context).trans('term_title')} ${this.term.term}',
                   style: Theme.of(context).textTheme.headline,
@@ -66,10 +67,11 @@ class TermCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Column(
+                  child: Row(
                     children: <Widget>[
-                      _displayEvents(this.term.eventIds),
-                      _displayStaffMembers(this.term.staffMemberIds),
+                      Expanded(flex: 1, child: _displayEvents(this.term.eventIds)),
+                      Expanded(flex: 1, child: _displayStaffMembers(this.term.staffMemberIds)),
+                      Spacer(flex: 3),
                     ],
                   ),
                 ),

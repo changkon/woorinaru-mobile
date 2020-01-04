@@ -39,6 +39,7 @@ class Term {
     Map<String, dynamic> json = {
       "id": this.id,
       "term": this.term,
+      "staffMembers": this.staffMemberIds == null ? [] : this.staffMemberIds,
       "startDate": DateFormat("yyyy-MM-dd").format(this.startDate),
       "endDate": DateFormat("yyyy-MM-dd").format(this.endDate),
       "events": this.eventIds,

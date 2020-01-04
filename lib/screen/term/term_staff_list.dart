@@ -33,9 +33,7 @@ class _TermStaffListState extends State<TermStaffList> {
                 fontSize: 15,
               ),
             ),
-            TextSpan(
-              text: '\n'
-            ),
+            TextSpan(text: '\n'),
             TextSpan(text: staff.getStaffRole),
           ],
         ),
@@ -56,7 +54,9 @@ class _TermStaffListState extends State<TermStaffList> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[..._displayTiles(this._staff)],
+      children: <Widget>[
+        ..._displayTiles(this._staff),
+      ],
     );
   }
 }

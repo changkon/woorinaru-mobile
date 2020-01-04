@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:woorinaru/component/empty/generic_empty_state_card.dart';
@@ -21,6 +22,7 @@ import '../../component/event/event_card.dart';
 import '../../theme/typography/title.dart' as WoorinaruTitle;
 
 import '../../component/term/term_info.dart';
+import '../../component/tile/staff_tile.dart';
 
 class TermScreen extends StatefulWidget {
   final Term term;
@@ -66,17 +68,17 @@ class _TermScreenState extends State<TermScreen> {
     // Get events
     List<Event> events = [];
 
-    for (int i = 0; i < _term.eventIds.length; i++) {
+    for (int i = 0; i < updatedTerm.eventIds.length; i++) {
       // add to collection
-      Event event = await eventService.getEvent(_term.eventIds[i]);
+      Event event = await eventService.getEvent(updatedTerm.eventIds[i]);
       events.add(event);
     }
 
     List<User> staffMembers = [];
 
-    for (int i = 0; i < _term.staffMemberIds.length; i++) {
+    for (int i = 0; i < updatedTerm.staffMemberIds.length; i++) {
       // add to collection
-      User staffMember = await staffService.getStaff(_term.staffMemberIds[i]);
+      User staffMember = await staffService.getStaff(updatedTerm.staffMemberIds[i]);
       staffMembers.add(staffMember);
     }
 
@@ -87,6 +89,33 @@ class _TermScreenState extends State<TermScreen> {
       _staffMembers = staffMembers;
       _isLoading = false;
     });
+  }
+
+  void _addStaffCallback(User selectedStaffMember) async {
+    // Adding staff
+    TermService termService =
+        Provider.of<TermService>(context, listen: false);
+    // 1. Add to list and update state.
+    setState(() {
+      _term.staffMemberIds.add(selectedStaffMember.id);
+      _staffMembers.add(selectedStaffMember);
+    });
+    // 2. Add to term API call
+    await termService.modifyTerm(_term);
+    Navigator.of(context).pop();
+  }
+
+  void _removeStaffCallback(User selectedStaffMember) async {
+    // Adding staff
+      TermService termService =
+          Provider.of<TermService>(context, listen: false);
+      // 1. Add to list and update state.
+      setState(() {
+        _term.staffMemberIds.remove(selectedStaffMember.id);
+        _staffMembers.remove(selectedStaffMember);
+      });
+      // 2. Add to term API call
+      await termService.modifyTerm(_term);
   }
 
   void _showStaffAddDropdown(BuildContext context) async {
@@ -104,52 +133,7 @@ class _TermScreenState extends State<TermScreen> {
     Widget modalWidget = ListView.builder(
       itemCount: selectableStaffMembers.length,
       itemBuilder: (context, index) {
-        return Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              caption: 'Add staff',
-              color: Colors.green,
-              icon: Icons.check,
-              onTap: () async {
-                // Adding staff
-                // 1. Add to term API call
-                // 2. Add to list and update state.
-                // TermService termService = Provider.of<TermService>(context, listen: false);
-                // final Term updatedTerm = await termService.getTerm(this._term.id);
-                // updatedTerm.staffMemberIds.add()
-              },
-            ),
-          ],
-          child: ListTile(
-            leading: Icon(
-              Icons.person,
-              size: 35,
-            ),
-            title: Text(selectableStaffMembers.elementAt(index).name),
-            subtitle: RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.grey),
-                children: [
-                  TextSpan(
-                    text: selectableStaffMembers.elementAt(index).getTeam,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
-                  TextSpan(text: '\n'),
-                  TextSpan(
-                      text:
-                          selectableStaffMembers.elementAt(index).getStaffRole),
-                ],
-              ),
-            ),
-            isThreeLine: true,
-            onTap: () => {},
-          ),
-        );
+        return StaffTile(staffMember: selectableStaffMembers[index], callback: () async => _addStaffCallback(selectableStaffMembers[index]), actionType: true);
       },
     );
 
@@ -179,9 +163,6 @@ class _TermScreenState extends State<TermScreen> {
     }
 
     MediaQueryData mediaQuery = MediaQuery.of(context);
-    // double availableScreenHeight = (mediaQuery.size.height -
-    //     appBar.preferredSize.height -
-    //     mediaQuery.padding.top);
 
     return Container(
       height: mediaQuery.size.height * 0.35,
@@ -208,28 +189,39 @@ class _TermScreenState extends State<TermScreen> {
     );
   }
 
+  Widget _getTermDescription(String icon, String title, String subtitle) {
+    return ListTile(
+      leading: SvgPicture.asset('assets/icons/$icon', width: 35, height: 35),
+      title: Text(title),
+      subtitle: Text(subtitle),
+    );
+  }
+
   List<Widget> _displayTermDescription(Client client) {
     return [
       WoorinaruTitle.Title(
         AppLocalizations.of(context).trans('term_description'),
       ),
-      TermInfo(
-          svgPath: 'assets/icons/bx-calendar.svg',
-          title: AppLocalizations.of(context).trans('term_start_date'),
-          text: '${DateFormat('yy/MM/dd').format(this._term.startDate)}'),
-      TermInfo(
-          svgPath: 'assets/icons/bx-calendar.svg',
-          title: AppLocalizations.of(context).trans('term_end_date'),
-          text: '${DateFormat('yy/MM/dd').format(this._term.endDate)}'),
-      TermInfo(
-          svgPath: 'assets/icons/bxs-group.svg',
-          title: AppLocalizations.of(context).trans('term_teachers'),
-          text: '${this._term.staffMemberIds.length}'),
-      TermInfo(
-        svgPath: 'assets/icons/bxs-bookmark.svg',
-        title: AppLocalizations.of(context).trans('term_events'),
-        text: '${this._term.eventIds.length}',
-      ),
+      _getTermDescription(
+          'bx-rocket.svg',
+          AppLocalizations.of(context).trans('term_title'),
+          '${this._term.term}'),
+      _getTermDescription(
+          'bx-calendar.svg',
+          AppLocalizations.of(context).trans('term_start_date'),
+          '${DateFormat('EE dd MMM yyyy').format(this._term.startDate)}'),
+      _getTermDescription(
+          'bx-calendar.svg',
+          AppLocalizations.of(context).trans('term_end_date'),
+          '${DateFormat('EE dd MMM yyyy').format(this._term.endDate)}'),
+      _getTermDescription(
+          'bxs-user-circle.svg',
+          AppLocalizations.of(context).trans('term_teachers'),
+          '${this._term.staffMemberIds.length}'),
+      _getTermDescription(
+          'bxs-bookmark.svg',
+          AppLocalizations.of(context).trans('term_events'),
+          '${this._term.eventIds.length}'),
     ];
   }
 
@@ -237,10 +229,25 @@ class _TermScreenState extends State<TermScreen> {
     List<Widget> staffWidget = [];
 
     if (_staffMembers.length == 0) {
-      staffWidget.add(Text('There are no staff'));
+      staffWidget.add(
+        Text(AppLocalizations.of(context).trans('term_staff_empty'),
+            style: Theme.of(context).textTheme.headline),
+      );
     } else {
-      TermStaffList staffList = TermStaffList(_staffMembers);
+      bool addActionButton = client == null ? false : client.userType == UserType.ADMIN || (client.userType == UserType.STAFF && client.staffRole == StaffRole.LEADER);
+      List<StaffTile> staffTiles = [];
+      if (addActionButton) {
+        staffTiles = this._staffMembers.map((staffMember) => StaffTile(staffMember: staffMember, callback: () async => _removeStaffCallback(staffMember), actionType: false)).toList();
+      } else {
+        staffTiles = this._staffMembers.map((staffMember) => StaffTile(staffMember: staffMember)).toList();
+      }
+      Column staffList = Column(
+        children: <Widget>[
+          ... staffTiles,
+        ],
+      );
       staffWidget.add(staffList);
+      // staffWidget.add([]);
     }
 
     List<Widget> titleWidgets = [];

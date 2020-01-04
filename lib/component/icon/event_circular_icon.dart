@@ -7,7 +7,7 @@ class EventCircularIcon extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return CircularIcon(
       radius: 10,
-      icon: SvgPicture.asset('assets/icons/bx-chalkboard.svg',
+      icon: SvgPicture.asset('assets/icons/bxs-bookmark.svg',
           color: Colors.black),
     );
   }
