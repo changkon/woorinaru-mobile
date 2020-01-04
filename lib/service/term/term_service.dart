@@ -15,6 +15,19 @@ class TermService extends WoorinaruService {
     @required TokenService tokenService,
   }) : super(baseUrl: baseUrl, tokenService: tokenService);
 
+  Future<bool> createTerm(Term term) async {
+    log.info('Creating term');
+    String url = '$baseUrl/term';
+
+    Response response = await this.httpClient.post(url, data: term.toJson());
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<List<Term>> getAllTerms() async {
     log.info('Getting all terms');
     String url = '$baseUrl/term';
@@ -56,9 +69,6 @@ class TermService extends WoorinaruService {
       return -1;
     }
 
-    // int latestTerm = terms.fold(terms.first['id'] as int,
-    //   (latest, current) => latest > (current['term'] as int) ? latest : (current['term'] as int));
-
     int latestTermId = terms.first['id'];
     int latestTerm = terms.first['term'];
 
@@ -72,5 +82,32 @@ class TermService extends WoorinaruService {
     }
     
     return latestTermId;
+  }
+
+  Future<bool> deleteTerm(int id) async {
+    log.info('Deleting term with id: $id');
+
+    String url = '$baseUrl/term/$id';
+    Response response = await this.httpClient.delete(url);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> modifyTerm(Term term) async {
+    log.info('Modifying term with id: ${term.id}');
+
+    String url = '$baseUrl/term';
+
+    Response response = await this.httpClient.put(url, data: term.toJson());
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

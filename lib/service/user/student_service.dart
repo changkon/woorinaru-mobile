@@ -7,20 +7,19 @@ import '../woorinaru_service.dart';
 
 import '../../model/user/user.dart';
 
-class StaffService extends WoorinaruService {
-  Logger log = new Logger('StaffService');
+class StudentService extends WoorinaruService {
+  Logger log = new Logger('StudentService');
 
-
-  StaffService({
+  StudentService({
     @required String baseUrl,
     @required TokenService tokenService,
   }) : super(baseUrl: baseUrl, tokenService: tokenService);
 
-  Future<bool> createStaff(User staff) async {
-    log.info('Creating staff');
-    String url = '$baseUrl/staff';
+  Future<bool> createStudent(User student) async {
+    log.info('Creating student');
+    String url = '$baseUrl/student';
 
-    Response response = await this.httpClient.post(url, data: staff.toJson());
+    Response response = await this.httpClient.post(url, data: student.toJson());
 
     if (response.statusCode == 201) {
       return true;
@@ -29,14 +28,14 @@ class StaffService extends WoorinaruService {
     }
   }
 
-  Future<User> getStaff(int id) async {
-    log.info('Getting staff with id: $id');
+  Future<User> getStudent(int id) async {
+    log.info('Getting student with id: $id');
 
-    String url = '$baseUrl/staff/$id';
+    String url = '$baseUrl/student/$id';
     Response response = await this.httpClient.get(url);
 
     if (response.data == null) {
-      log.warning('There are no staff member with id: $id');
+      log.warning('There are no students with id: $id');
       return null;
     }
 
@@ -44,10 +43,10 @@ class StaffService extends WoorinaruService {
     return user;
   }
 
-  Future<List<User>> getStaffList() async {
-    log.info('Getting all staff');
+  Future<List<User>> getStudentList() async {
+    log.info('Getting all student');
 
-    String url = '$baseUrl/staff';
+    String url = '$baseUrl/student';
     Response response = await this.httpClient.get(url);
 
     if (response.data == null) {
@@ -55,20 +54,20 @@ class StaffService extends WoorinaruService {
       return null;
     }
 
-    List<User> staff = [];
+    List<User> student = [];
     List<dynamic> jsonResponse = response.data;
 
     jsonResponse.forEach((json) {
-      staff.add(User.fromJson(json));
+      student.add(User.fromJson(json));
     });
 
-    return staff;
+    return student;
   }
 
   Future<bool> deleteStaff(int id) async {
-    log.info('Deleting staff with id: $id');
+    log.info('Deleting student with id: $id');
 
-    String url = '$baseUrl/staff/$id';
+    String url = '$baseUrl/student/$id';
     Response response = await this.httpClient.delete(url);
 
     if (response.statusCode == 200) {
@@ -79,12 +78,12 @@ class StaffService extends WoorinaruService {
     }
   }
 
-  Future<bool> modifyStaff(User staff) async {
-    log.info('Modifying staff with id: ${staff.id}');
+  Future<bool> modifyStaff(User student) async {
+    log.info('Modifying student with id: ${student.id}');
 
-    String url = '$baseUrl/staff';
+    String url = '$baseUrl/student';
 
-    Response response = await this.httpClient.put(url, data: staff.toJson());
+    Response response = await this.httpClient.put(url, data: student.toJson());
 
     if (response.statusCode == 200) {
       return true;

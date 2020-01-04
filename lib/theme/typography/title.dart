@@ -19,11 +19,12 @@ class Title extends StatelessWidget {
         children: <Widget>[
           Text(
             this.text,
-            style: TextStyle(
-              color: Theme.of(context).primaryColorDark,
-              fontSize: _getFontSize(context),
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.title,
+            // style: TextStyle(
+            //   color: Theme.of(context).primaryColorDark,
+            //   fontSize: _getFontSize(context),
+            //   fontWeight: FontWeight.bold,
+            // ),
           ),
         ],
       ),

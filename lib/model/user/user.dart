@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 enum UserType { STUDENT, STAFF, ADMIN }
 enum StaffRole { LEADER, VICE_LEADER, SUB_LEADER, TEACHER }
 enum Team { PLANNING, DESIGN, MEDIA, EDUCATION }
@@ -83,6 +85,61 @@ class User {
       staffRole: staffRole,
       team: team,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {
+      "id": this.id,
+      "name": this.name,
+      "nationality": this.nationality,
+      "email": this.email,
+      "favouriteResources": this.favouriteResources,
+      "signUpDateTime": DateFormat("yyyy-MM-dd HH:mm:ss").format(signUpDateTime).toString(),
+    };
+
+    if (this.staffRole != null) {
+      String staffRoleValue = "";
+      switch (this.staffRole) {
+        case StaffRole.LEADER:
+          staffRoleValue = "leader";
+          break;
+        case StaffRole.VICE_LEADER:
+          staffRoleValue = "vice_leader";
+          break;
+        case StaffRole.SUB_LEADER:
+          staffRoleValue = "sub_leader";
+          break;
+        case StaffRole.TEACHER:
+          staffRoleValue = "teacher";
+          break;
+      }
+
+      json["staffRole"] = staffRoleValue;
+    }
+
+    if (this.team != null) {
+      String teamValue = "";
+      switch (this.team) {
+        case Team.PLANNING:
+          teamValue = "planning";
+          break;
+        case Team.DESIGN:
+          teamValue = "design";
+          break;
+        case Team.MEDIA:
+          teamValue = "media";
+          break;
+        case Team.EDUCATION:
+          teamValue = "education";
+          break;
+      }
+
+      json["team"] = teamValue;
+    }
+
+    // Remove empty keys. Cleaning json output
+    json.removeWhere((key, value) => value == null);
+    return json;
   }
 
   String get getUserType {

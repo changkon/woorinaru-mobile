@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:woorinaru/component/empty/generic_empty_state_card.dart';
@@ -78,7 +79,6 @@ class _TermScreenState extends State<TermScreen> {
       events.add(event);
     }
 
-    // TODO get staff members
     List<User> staffMembers = [];
 
     for (int i = 0; i < _term.staffMemberIds.length; i++) {
@@ -94,6 +94,84 @@ class _TermScreenState extends State<TermScreen> {
       _staffMembers = staffMembers;
       _isLoading = false;
     });
+  }
+
+  void _showStaffAddDropdown(BuildContext context) async {
+    StaffService staffService =
+        Provider.of<StaffService>(context, listen: false);
+
+    List<User> selectableStaffMembers = await staffService.getStaffList();
+
+    // Go through term staff and subtract
+    _staffMembers.forEach((staff) {
+      int id = staff.id;
+      selectableStaffMembers.removeWhere((staff) => staff.id == id);
+    });
+
+    Widget modalWidget = ListView.builder(
+      itemCount: selectableStaffMembers.length,
+      itemBuilder: (context, index) {
+        return Slidable(
+          actionPane: SlidableDrawerActionPane(),
+          actionExtentRatio: 0.25,
+          secondaryActions: <Widget>[
+            IconSlideAction(
+              caption: 'Add staff',
+              color: Colors.green,
+              icon: Icons.check,
+              onTap: () async {
+                // Adding staff
+                // 1. Add to term API call
+                // 2. Add to list and update state.
+                // TermService termService = Provider.of<TermService>(context, listen: false);
+                // final Term updatedTerm = await termService.getTerm(this._term.id);
+                // updatedTerm.staffMemberIds.add()
+              },
+            ),
+          ],
+          child: ListTile(
+            leading: Icon(
+              Icons.person,
+              size: 35,
+            ),
+            title: Text(selectableStaffMembers.elementAt(index).name),
+            subtitle: RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.grey),
+                children: [
+                  TextSpan(
+                    text: selectableStaffMembers.elementAt(index).getTeam,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ),
+                  TextSpan(text: '\n'),
+                  TextSpan(
+                      text:
+                          selectableStaffMembers.elementAt(index).getStaffRole),
+                ],
+              ),
+            ),
+            isThreeLine: true,
+            onTap: () => {},
+          ),
+        );
+      },
+    );
+
+    if (selectableStaffMembers.length == 0) {
+      modalWidget = ListTile(
+        title: Text('There are no staff members to add'),
+      );
+    }
+
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return modalWidget;
+      },
+    );
   }
 
   Widget _displayBanner(Client client) {
@@ -187,7 +265,7 @@ class _TermScreenState extends State<TermScreen> {
       titleWidgets.add(
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () => _showStaffAddDropdown(context),
         ),
       );
     }
@@ -195,9 +273,7 @@ class _TermScreenState extends State<TermScreen> {
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          ... titleWidgets
-        ],
+        children: <Widget>[...titleWidgets],
       ),
       ...staffWidget,
     ];
@@ -233,19 +309,15 @@ class _TermScreenState extends State<TermScreen> {
       titleWidgets.add(
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () => {},
         ),
       );
     }
 
-
-
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          ... titleWidgets
-        ],
+        children: <Widget>[...titleWidgets],
       ),
       ...eventWidgets,
     ];

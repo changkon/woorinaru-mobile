@@ -64,6 +64,21 @@ class WoorinaruApp extends StatelessWidget {
             primarySwatch: Colors.red,
             accentColor: Colors.redAccent,
             fontFamily: 'NotoSansKr',
+            textTheme: TextTheme(
+              title: TextStyle(
+                color: Colors.red.shade800,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              body1: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+              subtitle: TextStyle(
+                color: Colors.grey,
+                fontSize: 10,
+              ),
+            ),
           ),
           // home: MyRoute.Route(),
           localizationsDelegates: [

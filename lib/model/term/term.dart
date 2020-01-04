@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Term {
   int id;
   int term;
@@ -31,5 +33,19 @@ class Term {
       endDate: endDate,
       eventIds: eventIds,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {
+      "id": this.id,
+      "term": this.term,
+      "startDate": DateFormat("yyyy-MM-dd").format(this.startDate),
+      "endDate": DateFormat("yyyy-MM-dd").format(this.endDate),
+      "events": this.eventIds,
+    };
+    
+    // Remove empty keys. Cleaning json output
+    json.removeWhere((key, value) => value == null);
+    return json;
   }
 }

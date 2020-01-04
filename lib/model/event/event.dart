@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../user/user.dart';
 import '../class/woorinaru_class.dart';
 
@@ -44,5 +46,20 @@ class Event {
       studentReservationIds: studentReservationIds,
       wooriClassIds: wooriClassIds,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {
+      "id": this.id,
+      "startDateTime": DateFormat("yyyy-MM-dd HH:mm:ss").format(this.startDateTime),
+      "endDateTime": DateFormat("yyyy-MM-dd HH:mm:ss").format(this.endDateTime),
+      "description": this.description,
+      "wooriClasses": this.wooriClassIds,
+      "studentReservations": this.studentReservationIds,
+    };
+
+    // Cleaning
+    json.removeWhere((key, value) => value == null);
+    return json;
   }
 }
