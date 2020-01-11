@@ -14,6 +14,9 @@ class User {
   UserType userType;
   StaffRole staffRole;
   Team team;
+  DateTime createDateTime;
+  DateTime updateDateTime;
+  bool isGuest;
 
   User({
     this.id,
@@ -25,6 +28,9 @@ class User {
     this.userType,
     this.staffRole,
     this.team,
+    this.createDateTime,
+    this.updateDateTime,
+    this.isGuest,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -34,8 +40,11 @@ class User {
     String email = json['email'] as String;
     List<int> favouriteResources = json['favouriteResources'].cast<int>();
     DateTime signUpDateTime = DateTime.parse(json['signUpDateTime'] as String);
+    DateTime createDateTime = DateTime.parse(json['createDateTime'] as String);
+    DateTime updateDateTime = DateTime.parse(json['updateDateTime'] as String);
     StaffRole staffRole = null;
     Team team = null;
+    bool isGuest = false;
 
     if (json.keys.contains('staffRole')) {
       String staffRoleStr = json['staffRole'] as String;
@@ -75,6 +84,10 @@ class User {
       }
     }
 
+    if (json.keys.contains('guest')) {
+      isGuest = json['guest'] as bool;
+    }
+
     return User(
       id: id,
       name: name,
@@ -84,6 +97,9 @@ class User {
       signUpDateTime: signUpDateTime,
       staffRole: staffRole,
       team: team,
+      createDateTime: createDateTime,
+      updateDateTime: updateDateTime,
+      isGuest: isGuest,
     );
   }
 
@@ -135,6 +151,10 @@ class User {
       }
 
       json["team"] = teamValue;
+    }
+
+    if (this.team == null && this.staffRole == null) {
+      json["guest"] = this.isGuest;
     }
 
     // Remove empty keys. Cleaning json output

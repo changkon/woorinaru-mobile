@@ -16,6 +16,9 @@ class Event {
   List<User> studentReservations;
   List<WoorinaruClass> wooriClasses;
 
+  DateTime createDateTime;
+  DateTime updateDateTime;
+
   Event({
     this.id,
     this.startDateTime,
@@ -26,6 +29,8 @@ class Event {
     this.wooriClassIds,
     this.studentReservations,
     this.wooriClasses,
+    this.createDateTime,
+    this.updateDateTime,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {
@@ -36,6 +41,8 @@ class Event {
     String description = json['description'] as String;
     List<int> studentReservationIds = json['studentReservations'].cast<int>();
     List<int> wooriClassIds = json['wooriClasses'].cast<int>();
+    DateTime createDateTime = DateTime.parse(json['createDateTime'] as String);
+    DateTime updateDateTime = DateTime.parse(json['updateDateTime'] as String);
 
     return Event(
       id: id,
@@ -45,6 +52,8 @@ class Event {
       description: description,
       studentReservationIds: studentReservationIds,
       wooriClassIds: wooriClassIds,
+      createDateTime: createDateTime,
+      updateDateTime: updateDateTime,
     );
   }
 

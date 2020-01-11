@@ -13,6 +13,8 @@ class WoorinaruClass {
   int eventId;
   Event event;
   ClassType classType;
+  DateTime createDateTime;
+  DateTime updateDateTime;
 
   WoorinaruClass({
     this.id,
@@ -24,6 +26,8 @@ class WoorinaruClass {
     this.eventId,
     this.event,
     this.classType,
+    this.createDateTime,
+    this.updateDateTime,
   });
 
   factory WoorinaruClass.fromJson(Map<String, dynamic> json,
@@ -34,6 +38,8 @@ class WoorinaruClass {
     List<int> studentIds = json['students'].cast<int>();
     int eventId = json['event'] as int;
     ClassType theClassType = classType;
+    DateTime createDateTime = DateTime.parse(json['createDateTime'] as String);
+    DateTime updateDateTime = DateTime.parse(json['updateDateTime'] as String);
 
     return WoorinaruClass(
       id: id,
@@ -42,6 +48,8 @@ class WoorinaruClass {
       studentIds: studentIds,
       eventId: eventId,
       classType: theClassType,
+      createDateTime: createDateTime,
+      updateDateTime: updateDateTime,
     );
   }
 

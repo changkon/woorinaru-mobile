@@ -22,6 +22,7 @@
   "term_description": "Description",
   "term_staff_members": "Staff",
   "term_staff_empty": "There are no staff members",
+  "term_staff_attendance": "Attending",
   "events": "Events",
   "create": "Create",
   "create_term_title": "Term",

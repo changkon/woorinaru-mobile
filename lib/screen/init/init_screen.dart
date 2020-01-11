@@ -59,12 +59,12 @@ class _InitScreenState extends State<InitScreen> {
       // await tokenService.localStorageService.saveIdRefreshToken('token');
       // Teacher user
       // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlYWNoZXJAdGVzdC5jb20iLCJuYW1lIjoiSGVucnkgV2Fsa2VyIiwibmlja25hbWUiOiJIZW5yeSIsInBpY3R1cmUiOiJwaWN0dXJlIn0.OGzUuaO2AmL8Kt_zbCPZOi9Lpu-I3heF1aYE468M0vw
-      //await tokenService.localStorageService.saveIdToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlYWNoZXJAdGVzdC5jb20iLCJuYW1lIjoiSGVucnkgV2Fsa2VyIiwibmlja25hbWUiOiJIZW5yeSIsInBpY3R1cmUiOiJwaWN0dXJlIn0.OGzUuaO2AmL8Kt_zbCPZOi9Lpu-I3heF1aYE468M0vw');
-      //await tokenService.localStorageService.saveIdRefreshToken('token');
+      await tokenService.localStorageService.saveIdToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlYWNoZXJAdGVzdC5jb20iLCJuYW1lIjoiSGVucnkgV2Fsa2VyIiwibmlja25hbWUiOiJIZW5yeSIsInBpY3R1cmUiOiJwaWN0dXJlIn0.OGzUuaO2AmL8Kt_zbCPZOi9Lpu-I3heF1aYE468M0vw');
+      await tokenService.localStorageService.saveIdRefreshToken('token');
       // Admin user
       // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwibmFtZSI6IkFsYW4gV2Fsa2VyIiwibmlja25hbWUiOiJBbGFuIiwicGljdHVyZSI6InBpY3R1cmUifQ.-KRyYkb62eCSCF9125YFGVj96V_BZgnd6TuwXwsyFj0
-      await tokenService.localStorageService.saveIdToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwibmFtZSI6IkFsYW4gV2Fsa2VyIiwibmlja25hbWUiOiJBbGFuIiwicGljdHVyZSI6InBpY3R1cmUifQ.-KRyYkb62eCSCF9125YFGVj96V_BZgnd6TuwXwsyFj0');
-      await tokenService.localStorageService.saveIdRefreshToken('token');
+      // await tokenService.localStorageService.saveIdToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwibmFtZSI6IkFsYW4gV2Fsa2VyIiwibmlja25hbWUiOiJBbGFuIiwicGljdHVyZSI6InBpY3R1cmUifQ.-KRyYkb62eCSCF9125YFGVj96V_BZgnd6TuwXwsyFj0');
+      // await tokenService.localStorageService.saveIdRefreshToken('token');
     }
     
     String accessToken = await tokenService.getLocalAccessToken();
@@ -87,8 +87,18 @@ class _InitScreenState extends State<InitScreen> {
       // TODO populate more from user using access token
       if (tokenPayload.role == 'admin') {
         loggedInClient.userType = UserType.ADMIN;
-      } else if (tokenPayload.role == 'staff') {
+      } else if (tokenPayload.role == 'leader') {
         loggedInClient.userType = UserType.STAFF;
+        loggedInClient.staffRole = StaffRole.LEADER;
+      } else if (tokenPayload.role == 'vice_leader') {
+        loggedInClient.userType = UserType.STAFF;
+        loggedInClient.staffRole = StaffRole.VICE_LEADER;
+      } else if (tokenPayload.role == 'sub_leader') {
+        loggedInClient.userType = UserType.STAFF;
+        loggedInClient.staffRole = StaffRole.SUB_LEADER;
+      } else if (tokenPayload.role == 'teacher') {
+        loggedInClient.userType = UserType.STAFF;
+        loggedInClient.staffRole = StaffRole.TEACHER;
       } else if (tokenPayload.role == 'student') {
         loggedInClient.userType = UserType.STUDENT;
       }

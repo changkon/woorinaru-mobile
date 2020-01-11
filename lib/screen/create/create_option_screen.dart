@@ -34,27 +34,38 @@ class CreateOptionScreen extends StatelessWidget {
       return [];
     } else {
       UserType userType = client.userType;
-      
-      if (userType == UserType.ADMIN) {
+      StaffRole staffRole = client.staffRole;
+
+      ListTile termTile = _createListTile(
+        AppLocalizations.of(context).trans('create_term_title'),
+        AppLocalizations.of(context).trans('create_term_subtitle'),
+        'assets/icons/bx-rocket.svg',
+      );
+
+      ListTile eventTile = _createListTile(
+        AppLocalizations.of(context).trans('create_event_title'),
+        AppLocalizations.of(context).trans('create_event_subtitle'),
+        'assets/icons/bx-calendar-plus.svg',
+      );
+
+      ListTile resourceTile = _createListTile(
+        AppLocalizations.of(context).trans('create_resource_title'),
+        AppLocalizations.of(context).trans('create_resource_subtitle'),
+        'assets/icons/bx-file.svg',
+      );
+
+      if (userType == UserType.ADMIN ||
+          (userType == UserType.STAFF && staffRole == StaffRole.LEADER)) {
         return [
-          _createListTile(
-            AppLocalizations.of(context).trans('create_term_title'),
-            AppLocalizations.of(context).trans('create_term_subtitle'),
-            'assets/icons/bx-rocket.svg',
-          ),
-          _createListTile(
-            AppLocalizations.of(context).trans('create_event_title'),
-            AppLocalizations.of(context).trans('create_event_subtitle'),
-            'assets/icons/bx-calendar-plus.svg',
-          ),
-          _createListTile(
-            AppLocalizations.of(context).trans('create_resource_title'),
-            AppLocalizations.of(context).trans('create_resource_subtitle'),
-            'assets/icons/bx-file.svg',
-          ),
+          termTile,
+          eventTile,
+          resourceTile,
         ];
       } else if (userType == UserType.STAFF) {
-
+        return [
+          eventTile,
+          resourceTile,
+        ];
       }
     }
 

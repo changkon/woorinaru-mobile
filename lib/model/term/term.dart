@@ -7,6 +7,8 @@ class Term {
   DateTime startDate;
   DateTime endDate;
   List<int> eventIds;
+  DateTime createDateTime;
+  DateTime updateDateTime;
 
   Term({
     this.id,
@@ -15,6 +17,8 @@ class Term {
     this.startDate,
     this.endDate,
     this.eventIds,
+    this.createDateTime,
+    this.updateDateTime,
   });
 
   factory Term.fromJson(Map<String, dynamic> json) {
@@ -24,6 +28,8 @@ class Term {
     DateTime startDate = DateTime.parse(json['startDate'] as String);
     DateTime endDate = DateTime.parse(json['endDate'] as String);
     List<int> eventIds = json['events'].cast<int>();
+    DateTime createDateTime = DateTime.parse(json['createDateTime'] as String);
+    DateTime updateDateTime = DateTime.parse(json['updateDateTime'] as String);
 
     return Term(
       id: id,
@@ -32,6 +38,8 @@ class Term {
       startDate: startDate,
       endDate: endDate,
       eventIds: eventIds,
+      createDateTime: createDateTime,
+      updateDateTime: updateDateTime,
     );
   }
 
