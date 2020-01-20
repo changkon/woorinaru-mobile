@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:woorinaru/component/appbar/woorinaru_app_bar.dart';
 import 'package:woorinaru/theme/localization/app_localizations.dart';
 
+import '../../route.dart' as WoorinaruRoute;
 import '../../model/user/client_model.dart';
 import '../../model/user/client.dart';
 import '../../model/user/user.dart';
@@ -13,6 +14,7 @@ class CreateOptionScreen extends StatelessWidget {
     String title,
     String subtitle,
     String leadingIconPath,
+    Function namedRoutePush,
   ) {
     SvgPicture leadingIcon = SvgPicture.asset(
       leadingIconPath,
@@ -25,7 +27,7 @@ class CreateOptionScreen extends StatelessWidget {
       title: Text(title),
       subtitle: Text(subtitle),
       trailing: Icon(Icons.chevron_right),
-      onTap: () => {},
+      onTap: namedRoutePush,
     );
   }
 
@@ -40,18 +42,21 @@ class CreateOptionScreen extends StatelessWidget {
         AppLocalizations.of(context).trans('create_term_title'),
         AppLocalizations.of(context).trans('create_term_subtitle'),
         'assets/icons/bx-rocket.svg',
+        () => Navigator.of(context).pushNamed(WoorinaruRoute.Route.CREATE_TERM),
       );
 
       ListTile eventTile = _createListTile(
         AppLocalizations.of(context).trans('create_event_title'),
         AppLocalizations.of(context).trans('create_event_subtitle'),
         'assets/icons/bx-calendar-plus.svg',
+        () => {},
       );
 
       ListTile resourceTile = _createListTile(
         AppLocalizations.of(context).trans('create_resource_title'),
         AppLocalizations.of(context).trans('create_resource_subtitle'),
         'assets/icons/bx-file.svg',
+        () => {}
       );
 
       if (userType == UserType.ADMIN ||

@@ -33,5 +33,10 @@
   "create_resource_subtitle": "Create a new resource",
   "event_duration": "Duration",
   "event_classes": "Classes",
-  "event_students": "Students"
+  "event_students": "Students",
+  "create_term_detail_title": "Term Details",
+  "create_term_detail_dates": "Dates",
+  "create_term_detail_dates_error": "End date has to be later than start date",
+  "create_term_detail_staff": "Staff",
+  "create_term_staff_title": "Staff"
 }

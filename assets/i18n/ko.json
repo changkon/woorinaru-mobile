@@ -33,5 +33,10 @@
   "create_resource_subtitle": "새로운 자원을 올리기",
   "event_duration": "기간",
   "event_classes": "수업",
-  "event_students": "학생"
+  "event_students": "학생",
+  "create_term_detail_title": "기수 정보",
+  "create_term_detail_dates": "날짜",
+  "create_term_detail_dates_error": "끝나는 날이 더 늦어야해요",
+  "create_term_detail_staff": "선생님",
+  "create_term_staff_title": "선생님"
 }
